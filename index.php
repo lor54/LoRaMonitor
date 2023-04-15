@@ -1,3 +1,40 @@
+<?php
+  session_start();
+  $host = "192.168.1.1";
+  $username = "loramonitor";
+  $password = "loramonitor";
+  $database = "loramonitor";
+  $message = "";
+  try{
+    $connect = new PDO("mysql:host=$host; dbname=$database", $username, $password);
+
+    $connect ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if(isset($_POST["login"])){
+      if(empty($_POST["mail"]) || empty($_POST["password"])){
+        $message = '<label>Campi non completi</label>';
+      }
+      else{
+        $query = "SELECT * FROM persone WHERE mail = :mail AND password = :password";
+        $statement = $connect->prepare($query);
+        $statement->execute(
+            array('mail' => $_POST["mail"], 'password' => $_POST["password"]));
+            $count = $statement->rowCount();
+            if($count > 0){
+              $_SESSION["mail"] = $_POST["mail"];
+              header("location:login_success.php");
+            }
+            else{
+              $message = '<label>Mail o Password errate</label>';
+            }
+      }
+    }
+  }
+
+  catch(PDOExecption $error){
+    $message = $error->getMessage();
+  }
+?>
+
 <!doctype html>
 <html lang="it" >
 
@@ -12,6 +49,15 @@
 <body>
 <div class="login-page">
   <div class="form rounded">
+     
+
+    <?php
+      if(isset($message)){
+        echo '<label class="text-danger">'.$message.'</label>';
+      }
+    ?>
+    
+
     <form class="register-form">
       <div class="form-floating">
         <input type="text" class="form-control" id="name" placeholder="Nome">
@@ -54,7 +100,9 @@
         <input type="password" class="form-control" id="password" placeholder="name@example.com">
         <label for="password">Password</label>
       </div>
-      <button type="button" class="btn btn-primary btn-lg">login</button>
+      <div>
+        <button type="submit" class="btn btn-primary btn-lg" name=login>login</button>
+      </div>
       <p class="message">Non ancora registrato? <a href="#">Crea un account</a></p>
     </form>
   </div>
