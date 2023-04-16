@@ -1,36 +1,28 @@
 <?php
+  require_once("include/database.php");
   session_start();
-  $host = "192.168.1.1";
-  $username = "loramonitor";
-  $password = "loramonitor";
-  $database = "loramonitor";
-  $message = "";
-  try{
-    $connect = new PDO("mysql:host=$host; dbname=$database", $username, $password);
 
-    $connect ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  try {
     if(isset($_POST["login"])){
-      if(empty($_POST["mail"]) || empty($_POST["password"])){
+      print_r($_POST);
+      if(empty($_POST["email"]) || empty($_POST["password"])){
         $message = '<label>Campi non completi</label>';
       }
       else{
-        $query = "SELECT * FROM persone WHERE mail = :mail AND password = :password";
+        $query = "SELECT * FROM users WHERE email = :email AND password = :password";
         $statement = $connect->prepare($query);
         $statement->execute(
-            array('mail' => $_POST["mail"], 'password' => $_POST["password"]));
+            array('email' => $_POST["email"], 'password' => $_POST["password"]));
             $count = $statement->rowCount();
-            if($count > 0){
-              $_SESSION["mail"] = $_POST["mail"];
+            if($count > 0) {
+              $_SESSION["email"] = $_POST["email"];
               header("location:login_success.php");
-            }
-            else{
+            } else {
               $message = '<label>Mail o Password errate</label>';
             }
       }
     }
-  }
-
-  catch(PDOExecption $error){
+  } catch(PDOExecption $error) {
     $message = $error->getMessage();
   }
 ?>
@@ -58,7 +50,7 @@
     ?>
     
 
-    <form class="register-form">
+    <form method="post" id="signup" name="signup" class="register-form">
       <div class="form-floating">
         <input type="text" class="form-control" id="name" placeholder="Nome">
         <label for="name">Nome</label>
@@ -91,13 +83,13 @@
       <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
     </form>
 
-    <form class="login-form">
+    <form method="post" id="login" name="login" class="login-form">
       <div class="form-floating">
-        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
         <label for="email">Email address</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="password" placeholder="name@example.com">
+        <input type="password" class="form-control" name="password" id="password" placeholder="name@example.com">
         <label for="password">Password</label>
       </div>
       <div>
