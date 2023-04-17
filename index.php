@@ -25,6 +25,106 @@
   } catch(PDOExecption $error) {
     $message = $error->getMessage();
   }
+
+  if(isset($_POST['signup']))
+  {
+      if(isset($_POST['name'],$_POST['surname'],$_POST['email'],$_POST['password']) && !empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['password']))
+      {
+          $name = trim($_POST['name']);
+          $surname = trim($_POST['surname']);
+          $email = trim($_POST['email']);
+          $password = trim($_POST['password']);
+          
+          $options = array("cost"=>4);
+          $hashPassword = password_hash($password,PASSWORD_BCRYPT,$options);
+   
+          if(filter_var($email, FILTER_VALIDATE_EMAIL))
+          {
+            try{
+              $query = 'select * from users where email = :email';
+              $statement = $connect->prepare($query);
+              $p = ['email'=>$email];
+              $statement->execute($p);
+            }
+            catch(PDOException $e){
+                $errors[] = $e->getMessage();
+            }
+              
+              if($statement->rowCount() == 0)
+              {
+                  $query = "insert into users (name, surname, email, password, ruolo) values (:name,:surname,:email,:password, :ruolo)";
+              
+                  try{
+                      $statement = $connect->prepare($query);
+                      $params = [
+                          ':name'=>$name,
+                          ':surname'=>$surname,
+                          ':email'=>$email,
+                          ':password'=>$hashPassword,
+                          ':ruolo'=>"studente"
+                      ];
+                      
+                      $statement->execute($params);
+                      $message = '<label>User has been created successfully</label>';                      
+                  } catch(PDOException $e){
+                      $errors[] = $e->getMessage();
+                  }
+              }
+              else
+              {
+                  $valname = $name;
+                  $valsurname = $surname;
+                  $valemail = '';
+                  $valpassword = $password;
+   
+                  $errors[] = 'Email address already registered';
+              }
+          }
+          else
+          {
+              $errors[] = "Email address is not valid";
+          }
+      }
+      else
+      {
+          if(!isset($_POST['name']) || empty($_POST['name']))
+          {
+              $errors[] = 'First name is required';
+          }
+          else
+          {
+              $valname = $_POST['name'];
+          }
+          if(!isset($_POST['surname']) || empty($_POST['surname']))
+          {
+              $errors[] = 'Last name is required';
+          }
+          else
+          {
+              $valsurname = $_POST['surname'];
+          }
+   
+          if(!isset($_POST['email']) || empty($_POST['email']))
+          {
+              $errors[] = 'Email is required';
+          }
+          else
+          {
+              $valemail = $_POST['email'];
+          }
+   
+          if(!isset($_POST['password']) || empty($_POST['password']))
+          {
+              $errors[] = 'Password is required';
+          }
+          else
+          {
+              $valpassword = $_POST['password'];
+          }
+          
+      }
+   
+  }
 ?>
 
 <!doctype html>
@@ -45,26 +145,34 @@
 
     <?php
       if(isset($message)){
-        echo '<label class="text-danger">'.$message.'</label>';
+        echo '<label class="text-success">'.$message.'</label>';
       }
+
+      if(isset($errors) && count($errors) > 0)
+				{
+					foreach($errors as $error_msg)
+					{
+						echo '<div class="alert alert-danger">'.$error_msg.'</div>';
+					}
+                }
     ?>
     
 
     <form method="post" id="signup" name="signup" class="register-form">
       <div class="form-floating">
-        <input type="text" class="form-control" id="name" placeholder="Nome">
+        <input type="text" class="form-control" name=name id="name" placeholder="Nome">
         <label for="name">Nome</label>
       </div>
       <div class="form-floating">
-        <input type="text" class="form-control" id="surname" placeholder="Cognome">
+        <input type="text" class="form-control" name=surname id="surname" placeholder="Cognome">
         <label for="name">Cognome</label>
       </div>
       <div class="form-floating">
-        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        <input type="email" class="form-control" name=email id="email" placeholder="name@example.com">
         <label for="email">Email address</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="password" placeholder="name@example.com">
+        <input type="password" class="form-control" name=password id="password" placeholder="name@example.com">
         <label for="password">Password</label>
       </div>
 
@@ -79,7 +187,7 @@
         </select>
         <label for="role">Ruolo</label>
       </div>
-      <button type="button" class="btn btn-primary btn-lg">signup</button>
+      <button type="submit" class="btn btn-primary btn-lg" name="signup">signup</button>
       <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
     </form>
 
