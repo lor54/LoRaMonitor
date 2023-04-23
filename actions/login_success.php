@@ -1,8 +1,8 @@
 <?php
     session_start();
     if(!isset($_SESSION["email"])) {
-      header("location:auth.php");
+        header("location:index.php");
     }
 
-    include "pages/dashboard.php";
+    header("location:/index.php");
 ?>
