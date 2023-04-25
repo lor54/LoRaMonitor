@@ -15,7 +15,9 @@
             array('email' => $_POST["email"], 'password' => $hashPassword));
             $count = $statement->rowCount();
             if($count > 0) {
+              $user = $statement->fetch();
               $_SESSION["email"] = $_POST["email"];
+              $_SESSION["uid"] = $user["id"];
               header("location:actions/login_success.php");
             } else {
               $message = '<label>Mail o Password errate</label>';
