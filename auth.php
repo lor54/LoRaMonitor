@@ -24,7 +24,7 @@
             }
       }
     }
-  } catch(PDOExecption $error) {
+  } catch(PDOException $error) {
     $message = $error->getMessage();
   }
 
