@@ -24,6 +24,9 @@
           <li><a class="dropdown-item" href="actions/logout.php">Sign out</a></li>
         </ul>
       </div>
+      <div class="button">
+      <button type="submit" class="btn btn-primary btn-lg" name="addantenna">Aggiungi antenna +</button>
+      </div>
     </div>
   </div>
 </header>
