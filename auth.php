@@ -1,4 +1,6 @@
 <?php
+  $actual_page = "auth";
+
   require_once("include/database.php");
   session_start();
 
@@ -39,15 +41,13 @@
           
           $hashPassword = hash("sha256", $_POST["password"]);
    
-          if(filter_var($email, FILTER_VALIDATE_EMAIL))
-          {
-            try{
+          if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            try {
               $query = 'select * from users where email = :email';
               $statement = $connect->prepare($query);
               $p = ['email'=>$email];
               $statement->execute($p);
-            }
-            catch(PDOException $e){
+            } catch(PDOException $e) {
                 $errors[] = $e->getMessage();
             }
               

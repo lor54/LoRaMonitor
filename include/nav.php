@@ -2,15 +2,15 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary">Dashboard</a></li>
-        <li><a href="#" class="nav-link px-2 link-body-emphasis">Stats</a></li>
-        <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
-        <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+        <li><a href="#" class="nav-link px-2 <?php if($actual_page == "dashboard") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Dashboard</a></li>
+        <li><a href="#" class="nav-link px-2 <?php if($actual_page == "stats") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Stats</a></li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+      <?php if($actual_page == "dashboard") echo '<button type="submit" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary" name="addantenna">Aggiungi antenna +</button>';?>
+
+      <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
         <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-      </form>
+      </form>';?>
 
       <div class="dropdown text-end">
         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -21,11 +21,8 @@
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><a class="dropdown-item" href="#">Profile</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="actions/logout.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="/actions/logout.php">Sign out</a></li>
         </ul>
-      </div>
-      <div class="button">
-      <button type="submit" class="btn btn-primary btn-lg" name="addantenna">Aggiungi antenna +</button>
       </div>
     </div>
   </div>
