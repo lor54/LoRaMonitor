@@ -6,7 +6,9 @@
         <li><a href="#" class="nav-link px-2 <?php if($actual_page == "stats") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Stats</a></li>
       </ul>
 
-      <?php if($actual_page == "dashboard") echo '<button type="submit" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary" name="addantenna">Aggiungi antenna +</button>';?>
+      <?php if($actual_page == "dashboard") echo ' <a href="pages/antennareg.php">
+                                                      <button type="button" class="btn btn-sm btn-outline-secondary">Aggiungi antenna +</button>
+                                                   </a>';?>
 
       <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
         <input type="search" class="form-control" placeholder="Search..." aria-label="Search">

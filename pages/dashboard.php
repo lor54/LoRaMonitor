@@ -2,11 +2,7 @@
     $actual_page = "dashboard";
     
     require_once("include/database.php");
-
-    session_start();
-    if(!isset($_SESSION["email"])) {
-        header("location:/auth.php");
-    }
+    include "include/header.php";
 
     $gateways = array();
 
@@ -23,7 +19,6 @@
         print_r($message);
     }
 
-    include "include/header.php";
 ?>
 
 <body>
