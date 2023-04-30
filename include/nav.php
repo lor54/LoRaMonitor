@@ -2,12 +2,12 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 <?php if($actual_page == "dashboard") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Dashboard</a></li>
-        <li><a href="#" class="nav-link px-2 <?php if($actual_page == "stats") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Stats</a></li>
+        <li><a href="/" class="nav-link px-2 <?php if($actual_page == "dashboard") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Dashboard</a></li>
+        <li><a href="/pages/stats.php" class="nav-link px-2 <?php if($actual_page == "stats") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Stats</a></li>
       </ul>
 
       <?php if($actual_page == "dashboard") echo ' <a href="pages/antennareg.php">
-                                                      <button type="button" class="btn btn-sm btn-outline-secondary">Aggiungi antenna +</button>
+                                                      <button type="button" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary">Aggiungi antenna +</button>
                                                    </a>';?>
 
       <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">

@@ -156,7 +156,7 @@
                               <label for="name">Longitudine</label>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg" gwui="signup">Aggiungi antenna +</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Aggiungi antenna +</button>
                         </form>
                     </div>
                   </div>  
