@@ -8,19 +8,19 @@
 
   if(isset($_POST['signup']))
   {
-    if(isset($_POST['gwui'],$_POST['name'],$_POST['id'],$_POST['manufacturer']) && !empty($_POST['gwui']) && !empty($_POST['name']) && !empty($_POST['gwui']) && !empty($_POST['manufacturer']))
+    if(isset($_POST['gwui'],$_POST['name'],$_POST['manufacturer'], $_POST['latitude'], $_POST['longitude']) && !empty($_POST['gwui']) && !empty($_POST['name']) && !empty($_POST['gwui']) && !empty($_POST['manufacturer']) && !empty($_POST['latitude']) && empty($_POST['longitude']))
     {
         $gwui = trim($_POST['gwui']);
         $name = trim($_POST['name']);
-        $id = trim($_POST['id']);
         $manufacturer = trim($_POST['manufacturer']);
-        $userid = trim($_POST['userid']);
+        $latitude = trim($_POST['latitude']);
+        $longitude = trim($_POST['longitude']);
   
-        if(filter_var($id, FILTER_VALIDATE_ID)) {
+        if(filter_var($gwui, FILTER_VALIDATE_ID)) {
           try {
-            $query = 'select * from users where id = :id';
+            $query = 'select * from gateways where gwui = :gwui';
             $statement = $connect->prepare($query);
-            $p = ['id'=>$id];
+            $p = ['gwui'=>$gwui];
             $statement->execute($p);
           } catch(PDOException $e) {
               $errors[] = $e->getMessage();
@@ -28,16 +28,16 @@
             
             if($statement->rowCount() == 0)
             {
-                $query = "insert into users (gwui, name, id, manufacturer, userid) values (:gwui,:name,:id,:manufacturer, :userid)";
+                $query = "insert into gateways (gwui, name, manufacturer, latitude, longitude) values (:gwui,:name,:id,:manufacturer,:latitude,:longitude)";
             
                 try{
                     $statement = $connect->prepare($query);
                     $params = [
                         ':gwui'=>$gwui,
                         ':name'=>$name,
-                        ':id'=>$id,
                         ':manufacturer'=>$manufacturer,
-                        ':userid'=>$userid
+                        ':latitude' =>$latitude,
+                        ':longitude' =>$longitude
                     ];
                     
                     $statement->execute($params);
@@ -48,32 +48,33 @@
             }
             else
             {
-                $valgwui = $gwui;
+                $valgwui = '';
                 $valname = $name;
-                $valid = '';
                 $valmanufacturer = $manufacturer;
+                $vallatitude = $latitude;
+                $vallongitude = $longitude;
   
-                $errors[] = 'Id address already registered';
+                $errors[] = 'gwui address already registered';
             }
         }
         else
         {
-            $errors[] = "Id address is not valid";
+            $errors[] = "gwui address is not valid";
         }
     }
     else
     {
-        if(!isset($_POST['gwui']) || empty($_POST['gwui']))
+        if(!isset($_POST['name']) || empty($_POST['name']))
         {
-            $errors[] = 'First gwui is required';
+            $errors[] = 'Name is required';
         }
         else
         {
-            $valgwui = $_POST['gwui'];
+            $valname = $_POST['name'];
         }
         if(!isset($_POST['name']) || empty($_POST['name']))
         {
-            $errors[] = 'Last gwui is required';
+            $errors[] = 'Last name is required';
         }
         else
         {
@@ -82,7 +83,7 @@
   
         if(!isset($_POST['id']) || empty($_POST['id']))
         {
-            $errors[] = 'Id is required';
+            $errors[] = 'gwui is required';
         }
         else
         {
@@ -121,42 +122,43 @@
     <div class="album py-5 bg-body-tertiary">
     <div class="container">
     <div class="row justify-content-evenly">
-        <div class="col-sm-4 text-center">
-
-            <div class="card">
+        <div class="col-sm-4">
+          <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Antenna</h5>
-                    <h6 class="card-text">Your Antenna Information</h6>
+                    <h5 class="card-title">Gateway</h5>
+                    <h6 class="card-text">Gateway Information</h6>
                 </div>
                 <div class="card-body">
-                    <div class="col-18">
-                        <form>
-
+                    <div class="col-md-9 mx-auto text-center">
+                        <form id="gweditform">
                             <div class="form-floating">
                               <input type="text" class="form-control" name=name id="name" placeholder="Nome">
                               <label for="name">Nome</label>
                             </div>
-
+                            <label class="col-md-1 col-form-label"></label>
                             <div class="form-floating">
                               <input type="text" class="form-control" name=gwui id="gwui" placeholder="GWUI">
                               <label for="name">GWUI</label>
                             </div>
-
+                            <label class="col-md-1 col-form-label"></label>
                             <div class="form-floating">
                               <input type="text" class="form-control" name=manufacturer id="manufacturer" placeholder="Marca">
                               <label for="name">Marca</label>
                             </div>
-
+                            <label class="col-md-1 col-form-label"></label>
                             <div class="form-floating">
                               <input type="text" class="form-control" name=name id="latitude" placeholder="latitude">
                               <label for="name">Latitudine</label>
                             </div>
+                            <label class="col-md-1 col-form-label"></label>
                             <div class="form-floating">
                               <input type="text" class="form-control" name=name id="longitude" placeholder="longitude">
                               <label for="name">Longitudine</label>
                             </div>
-
-                            <button type="submit" class="btn btn-primary btn-lg">Aggiungi antenna +</button>
+                            <label class="col-md-1 col-form-label"></label>
+                            <div class="d-grid gap-2 form-group">
+                            <button type="submit" class="btn btn-success btn-lg">Aggiungi antenna +</button>
+                            </div>
                         </form>
                     </div>
                   </div>  
