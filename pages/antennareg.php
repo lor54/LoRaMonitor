@@ -6,7 +6,7 @@
     $gateways = array();
 
 
-  if(isset($_POST['signup']))
+  if(isset($_POST['addantenna']))
   {
     if(isset($_POST['gwui'],$_POST['name'],$_POST['manufacturer'], $_POST['latitude'], $_POST['longitude']) && !empty($_POST['gwui']) && !empty($_POST['name']) && !empty($_POST['gwui']) && !empty($_POST['manufacturer']) && !empty($_POST['latitude']) && empty($_POST['longitude']))
     {
@@ -157,7 +157,7 @@
                             </div>
                             <label class="col-md-1 col-form-label"></label>
                             <div class="d-grid gap-2 form-group">
-                            <button type="submit" class="btn btn-success btn-lg">Aggiungi antenna +</button>
+                            <button type="submit" class="btn btn-success btn-lg" name="addantenna">Aggiungi antenna +</button>
                             </div>
                         </form>
                     </div>
@@ -192,8 +192,6 @@
   document.getElementById('longitude').value = event.latlng.lng;
 
 })
-
-  
 
   
 

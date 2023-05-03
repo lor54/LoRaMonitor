@@ -98,19 +98,26 @@
     </div>
     <script>
 
-    const map = L.map('map').setView([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>], 16);
+    let map = L.map('map').setView([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>], 16);
 
-    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    map.addLayer(layer);
 
-    const marker = L.marker([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>]).addTo(map)
+    let marker = L.marker([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>]).addTo(map)
         .bindPopup('<b><?php echo $gateway["name"];?></b>').openPopup();
 
-    map.on('click', onMapClick);
+    map.on('click', (event)=> {
+    if(marker !== null){
+        map.removeLayer(marker);
+    }
+    
+    marker = L.marker([event.latlng.lat , event.latlng.lng]).addTo(map);
+    document.getElementById('latitude').value = event.latlng.lat;
+    document.getElementById('longitude').value = event.latlng.lng;
 
-    map.invalidateSize();
+})
+
+    
 
     function editGateway() {        
         var form = document.getElementById("gweditform");
