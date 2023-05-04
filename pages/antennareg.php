@@ -8,58 +8,61 @@
 
   if(isset($_POST['addantenna']))
   {
-    if(isset($_POST['gwui'],$_POST['name'],$_POST['manufacturer'], $_POST['latitude'], $_POST['longitude']) && !empty($_POST['gwui']) && !empty($_POST['name']) && !empty($_POST['gwui']) && !empty($_POST['manufacturer']) && !empty($_POST['latitude']) && empty($_POST['longitude']))
+    if(isset($_POST['gwui'], $_POST['name'], $_POST['manufacturer'], $_POST['latitude'], $_POST['longitude']) && !empty($_POST['gwui']) && !empty($_POST['name']) && !empty($_POST['manufacturer']) && !empty($_POST['latitude']) && !empty($_POST['longitude']))
     {
-        $gwui = trim($_POST['gwui']);
-        $name = trim($_POST['name']);
-        $manufacturer = trim($_POST['manufacturer']);
-        $latitude = trim($_POST['latitude']);
-        $longitude = trim($_POST['longitude']);
-  
-        if(filter_var($gwui, FILTER_VALIDATE_ID)) {
-          try {
-            $query = 'select * from gateways where gwui = :gwui';
-            $statement = $connect->prepare($query);
-            $p = ['gwui'=>$gwui];
-            $statement->execute($p);
-          } catch(PDOException $e) {
+      $gwui = trim($_POST['gwui']);
+      $name = trim($_POST['name']);
+      $manufacturer = trim($_POST['manufacturer']);
+      $latitude = trim($_POST['latitude']);
+      $longitude = trim($_POST['longitude']);
+        if(ctype_xdigit($gwui)) {
+            try {
+              $query = 'select * from gateways where gwui = :gwui';
+              $statement = $connect->prepare($query);
+              $p = ['gwui'=> $gwui];
+              $statement->execute($p);
+            } catch(PDOException $e) {
               $errors[] = $e->getMessage();
-          }
-            
+            }
+
             if($statement->rowCount() == 0)
             {
-                $query = "insert into gateways (gwui, name, manufacturer, latitude, longitude) values (:gwui,:name,:id,:manufacturer,:latitude,:longitude)";
+                $query = "insert into gateways (gwui, name, manufacturer, latitude, longitude, userid) values (:gwui,:name,:manufacturer,:latitude,:longitude, :userid)";
             
-                try{
+                try {
                     $statement = $connect->prepare($query);
                     $params = [
-                        ':gwui'=>$gwui,
-                        ':name'=>$name,
-                        ':manufacturer'=>$manufacturer,
-                        ':latitude' =>$latitude,
-                        ':longitude' =>$longitude
+                        ':gwui' => $gwui,
+                        ':name' => $name,
+                        ':manufacturer' => $manufacturer,
+                        ':latitude' => $latitude,
+                        ':longitude' => $longitude,
+                        ':userid' => $_SESSION["uid"]
                     ];
                     
                     $statement->execute($params);
+
+                    header("location:/");
                     $message = '<label>Antenna has been added successfully</label>';                      
                 } catch(PDOException $e){
                     $errors[] = $e->getMessage();
+                    echo $e->getMessage();
                 }
             }
             else
             {
-                $valgwui = '';
-                $valname = $name;
-                $valmanufacturer = $manufacturer;
-                $vallatitude = $latitude;
-                $vallongitude = $longitude;
+              $valgwui = '';
+              $valname = $name;
+              $valmanufacturer = $manufacturer;
+              $vallatitude = $latitude;
+              $vallongitude = $longitude;
   
-                $errors[] = 'gwui address already registered';
+              $errors[] = 'gwui address already registered';
             }
         }
         else
         {
-            $errors[] = "gwui address is not valid";
+          $errors[] = "gwui address is not valid";
         }
     }
     else
@@ -130,34 +133,44 @@
                 </div>
                 <div class="card-body">
                     <div class="col-md-9 mx-auto text-center">
-                        <form id="gweditform">
+                        <form method="post" id="addantenna">
                             <div class="form-floating">
-                              <input type="text" class="form-control" name=name id="name" placeholder="Nome">
+                              <input type="text" class="form-control" name="name" id="name" placeholder="Nome">
                               <label for="name">Nome</label>
                             </div>
+
                             <label class="col-md-1 col-form-label"></label>
+
                             <div class="form-floating">
-                              <input type="text" class="form-control" name=gwui id="gwui" placeholder="GWUI">
+                              <input type="text" class="form-control" name="gwui" id="gwui" placeholder="GWUI">
                               <label for="name">GWUI</label>
                             </div>
+
                             <label class="col-md-1 col-form-label"></label>
+
                             <div class="form-floating">
-                              <input type="text" class="form-control" name=manufacturer id="manufacturer" placeholder="Marca">
+                              <input type="text" class="form-control" name="manufacturer" id="manufacturer" placeholder="Marca">
                               <label for="name">Marca</label>
                             </div>
+
                             <label class="col-md-1 col-form-label"></label>
+
                             <div class="form-floating">
-                              <input type="text" class="form-control" name=name id="latitude" placeholder="latitude">
+                              <input type="coords" class="form-control" name="latitude" id="latitude" placeholder="latitude">
                               <label for="name">Latitudine</label>
                             </div>
+
                             <label class="col-md-1 col-form-label"></label>
+
                             <div class="form-floating">
-                              <input type="text" class="form-control" name=name id="longitude" placeholder="longitude">
+                              <input type="coords" class="form-control" name="longitude" id="longitude" placeholder="longitude">
                               <label for="name">Longitudine</label>
                             </div>
+
                             <label class="col-md-1 col-form-label"></label>
+
                             <div class="d-grid gap-2 form-group">
-                            <button type="submit" class="btn btn-success btn-lg" name="addantenna">Aggiungi antenna +</button>
+                              <button type="submit" class="btn btn-success btn-lg" name="addantenna">Aggiungi antenna +</button>
                             </div>
                         </form>
                     </div>

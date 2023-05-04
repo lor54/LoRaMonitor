@@ -1,4 +1,4 @@
-<header class="shadow-sm p-3 mb-5 border-bottom bg-white sticky-top">
+<header class="shadow-sm p-3 mb-5 border-bottom bg-light sticky-top">
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
