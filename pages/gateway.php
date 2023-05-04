@@ -32,21 +32,6 @@
 
 <body>
 
-    <!--<div aria-live="polite" aria-atomic="true" class="text-white bg-success position-relative">
-        <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
-            <div class="toast bg-success">
-                <div class="toast-header">
-                    <strong class="me-auto">Success!</strong>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                
-                <div class="toast-body">
-                    Gateway updated succesfully!
-                </div>
-            </div>
-        </div>
-    </div>-->
-
     <?php include "../include/nav.php"; ?>
     
     <div class="album py-5 bg-body-tertiary">
@@ -57,7 +42,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title"><?php echo $gateway["name"]; ?></h5>
+                            <h5 id="cardtitlename" class="card-title"><?php echo $gateway["name"]; ?></h5>
                             <h6 class="card-text">Gateway Information</h6>
                         </div>
                         <div class="col">
@@ -94,14 +79,14 @@
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
-                                <input type="number" class="form-control" id="latitude" name="latitude" placeholder="Latitude" value="<?php echo $gateway["latitude"]; ?>" disabled>
+                                <input type="coords" class="form-control" id="latitude" name="latitude" placeholder="Latitude" value="<?php echo $gateway["latitude"]; ?>" disabled readonly>
                                 <label for="latitude">Latitude</label>
                             </div>
 
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
-                                <input type="number" class="form-control" id="longitude" name="longitude" placeholder="Longitude" value="<?php echo $gateway["longitude"]; ?>" disabled>
+                                <input type="coords" class="form-control" id="longitude" name="longitude" placeholder="Longitude" value="<?php echo $gateway["longitude"]; ?>" disabled readonly>
                                 <label for="longitude">Longitude</label>
                             </div>
 
@@ -143,9 +128,7 @@
             document.getElementById('longitude').value = event.latlng.lng;
         }
     })
-
     
-
     function editGateway() {        
         isEditing = true;
 
@@ -170,10 +153,20 @@
 
         document.getElementById("editButton").style.display = 'block';
         document.getElementById("editButtonSubmit").style.display = 'none';
+
+        if(marker !== null){
+            map.removeLayer(marker);
+        }
+
+        document.getElementById('cardtitlename').textContent = document.getElementById('name').value;
+
+        const latitude = document.getElementById('latitude').value;
+        const longitude = document.getElementById('longitude').value;
+        marker = L.marker([latitude, longitude]).addTo(map).bindPopup('<b>' + document.getElementById('name').value + '</b>').openPopup();
     }
 
     $("#gweditform").submit(function(e) {
-        e.preventDefault(); // avoid to execute the actual submit of the form.
+        e.preventDefault();
 
         var form = $(this);
         var actionUrl = form.attr('action');
