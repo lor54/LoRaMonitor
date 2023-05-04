@@ -176,10 +176,10 @@
                     </div>
                   </div>  
               </div>
-      </div>
+            </div>
         <div class="col-md-6 text-center ">
-        <div id="map" style="width: 700px; height: 500px;"></div>
-      </div>
+          <div id="map" style="width: 700px; height: 500px;"></div>
+        </div>
     </div>
   </div>
 

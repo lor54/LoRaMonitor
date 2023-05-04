@@ -97,8 +97,8 @@
                             </div>
                         </form>
                     </div>
-    </div>  
-</div>
+                </div>  
+            </div>
         </div>
         <div class="col-md-6">
             <div id="map" style="width: 600px; height: 400px;"></div>
