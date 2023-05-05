@@ -4,12 +4,26 @@
     require_once("../include/database.php");
     include "../include/header.php";
     $gateways = array();
+
+    if(isset($_GET["id"])) {
+      try {
+          $query = "SELECT * FROM gateways WHERE userid = :uid AND id = :id";
+          $statement = $connect->prepare($query);
+          $statement->execute(array('id' => $_GET["id"], 'uid' => $_SESSION["uid"]));
+          $count = $statement->rowCount();
+        } catch(PDOException $error) {
+          $message = $error->getMessage();
+          print_r($message);
+      }}
 ?>
 
 
   <body>
     <?php include "../include/nav.php"; ?>
-   
+    <div class="col-md-6 text-center ">
+      <div id="map" style="width: 700px; height: 500px;"></div>
+    </div>
+    
     <!-- CONTAINER FOR CHART -->
     <div id="chart_div"></div>
     <script
@@ -69,13 +83,57 @@
           index++;
         }, 100);
       }
-      var isEditing = false;
+      let mapOptions = {
+      center:[41.8902, 12.4922], 
+      zoom:10
+     }
 
-      let map = L.map('map').setView([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>], 16);
-
+      let map = new L.map('map', mapOptions);
       let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
       map.addLayer(layer);
 
+      let locations = [
+    {
+        "id": 1,
+        "lat": 41.900,
+        "long": 12.3368,
+        "title": "Posto 1"
+    },
+    {
+        "id": 2,
+        "lat": 41.8741,
+        "long": 12.3368,
+        "title": "Posto 2"
+    },
+    {
+        "id": 3,
+        "lat": 41.8724,
+        "long": 12.3428,
+        "title": "Posto 3"
+    },
+    {
+        "id": 4,
+        "lat": 41.87,
+        "long": 12.3397,
+        "title": "Posto 4"
+    }
+  ]
+  let popupOption = {
+    "closeButton":false
+}
+
+locations.forEach(element => {
+    new L.Marker([element.lat,element.long]).addTo(map)
+    .on("mouseover",event =>{
+        event.target.bindPopup('<div class="card"><h3>'+element.title+'</h3></div>',popupOption).openPopup();
+    })
+    .on("mouseout", event => {
+        event.target.closePopup();
+    })
+    .on("click" , () => {
+        window.open(element.url);
+    })
+});
       
         
     </script>
