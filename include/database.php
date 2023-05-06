@@ -1,5 +1,5 @@
 <?php
-    $host = '192.168.1.1';
+    $host = '10.6.0.2';
     $username = 'loramonitor';
     $password = 'loramonitor';
     $database = 'loramonitor';

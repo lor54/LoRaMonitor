@@ -9,8 +9,13 @@
       try {
           $query = "SELECT * FROM gateways WHERE userid = :uid AND id = :id";
           $statement = $connect->prepare($query);
-          $statement->execute(array('id' => $_GET["id"], 'uid' => $_SESSION["uid"]));
+          $statement->execute(array('uid' => $_SESSION["uid"]));
           $count = $statement->rowCount();
+          if($count > 0) {
+            $gateways = $statement->fetchAll();           
+        } else {
+            header("location:/index.php");
+        }
         } catch(PDOException $error) {
           $message = $error->getMessage();
           print_r($message);
@@ -91,32 +96,20 @@
       let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
       map.addLayer(layer);
 
-      let locations = [
-    {
-        "id": 1,
-        "lat": 41.900,
-        "long": 12.3368,
-        "title": "Posto 1"
-    },
-    {
-        "id": 2,
-        "lat": 41.8741,
-        "long": 12.3368,
-        "title": "Posto 2"
-    },
-    {
-        "id": 3,
-        "lat": 41.8724,
-        "long": 12.3428,
-        "title": "Posto 3"
-    },
-    {
-        "id": 4,
-        "lat": 41.87,
-        "long": 12.3397,
-        "title": "Posto 4"
-    }
-  ]
+    <?php
+      foreach($gateways as $gateway) {
+        echo
+        'let locations = [
+        {
+          "id":' .$gateway["id"].','.
+          '"lat":' .$gateway["latitude"].','.
+          '"long":' .$gateway["longitude"].','.
+          '"title":' .$gateway["name"].' 
+        }  
+        ]';
+      }
+    ?>
+
   let popupOption = {
     "closeButton":false
 }
