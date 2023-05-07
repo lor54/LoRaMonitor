@@ -3,33 +3,35 @@
 
     require_once("../include/database.php");
     include "../include/header.php";
-    $gateways = array();
+    
+    $result = array(); 
 
-    if(isset($_GET["id"])) {
       try {
-          $query = "SELECT * FROM gateways WHERE userid = :uid AND id = :id";
-          $statement = $connect->prepare($query);
-          $statement->execute(array('uid' => $_SESSION["uid"]));
-          $count = $statement->rowCount();
+        $query = "SELECT * FROM gateways WHERE userid = :uid";
+        $statement = $connect->prepare($query);
+        $statement->execute(array('uid' => $_SESSION["uid"]));
+        $count = $statement->rowCount();
           if($count > 0) {
-            $gateways = $statement->fetchAll();           
-        } else {
-            header("location:/index.php");
-        }
+            $result = $statement->fetchAll();
+          }
         } catch(PDOException $error) {
           $message = $error->getMessage();
           print_r($message);
-      }}
+      }
+
 ?>
 
 <body>
     <?php include "../include/nav.php"; ?>
-    <div class="col-md-6 text-center ">
-      <div id="map" style="width: 700px; height: 500px;"></div>
-    </div>
+    
+    <div class="container">
+      <div class="h-100 d-flex align-items-center justify-content-center">
+        <div id="map" style="width: 700px; height: 500px;"></div>
+      </div>
     
     <!-- CONTAINER FOR CHART -->
-    <div id="chart_div"></div>
+      <div id="chart_div"></div>
+    </div>
     <script
       type="text/javascript"
       src="https://www.gstatic.com/charts/loader.js"
@@ -97,14 +99,14 @@
       map.addLayer(layer);
 
     <?php
-      foreach($gateways as $gateway) {
+      foreach($result as $row) {
         echo
         'let locations = [
         {
-          "id":' .$gateway["id"].','.
-          '"lat":' .$gateway["latitude"].','.
-          '"long":' .$gateway["longitude"].','.
-          '"title":' .$gateway["name"].' 
+          "id":' .$row["id"].','.
+          '"lat":' .$row["latitude"].','.
+          '"long":' .$row["longitude"].','.
+          '"title":' .$row["name"].' 
         }  
         ]';
       }
