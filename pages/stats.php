@@ -99,29 +99,31 @@
       map.addLayer(layer);
 
     <?php
+      $count = 0;
+      echo 'let locations = [';
       foreach($result as $row) {
+        if($count++ > 0) echo ',';
         echo
-        'let locations = [
-        {
+        '{
           "id":' .$row["id"].','.
           '"lat":' .$row["latitude"].','.
           '"long":' .$row["longitude"].','.
-          '"title":' .$row["name"].' 
-        }  
-        ]';
+          '"name":"' .$row["name"].'" 
+        }';
       }
+      echo '        ];';
     ?>
 
   let popupOption = {
-    "closeButton":false
-}
+    "closeButton": false
+  };
 
-locations.forEach(element => {
+  locations.forEach(element => {
     new L.Marker([element.lat,element.long]).addTo(map)
-    .on("mouseover",event =>{
-        event.target.bindPopup('<div class="card"><h3>'+element.title+'</h3></div>',popupOption).openPopup();
+    .on("mouseover", (event) => {
+        event.target.bindPopup('<div class="text-center"><b>' + element.name + '</b></div>', popupOption).openPopup();
     })
-    .on("mouseout", event => {
+    .on("mouseout", (event) => {
         event.target.closePopup();
     })
     .on("click" , () => {
