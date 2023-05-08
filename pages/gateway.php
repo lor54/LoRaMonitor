@@ -100,7 +100,11 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div id="map" style="width: 600px; height: 400px;"></div>
+            <div class="container">
+                <div class="h-100 d-flex align-items-center justify-content-center">
+                    <div id="map" style="width: 600px; height: 400px;"></div>
+                </div>
+            </div>
         </div>
     </div>
     </div>
