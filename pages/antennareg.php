@@ -46,7 +46,7 @@
                     $message = '<label>Antenna has been added successfully</label>';                      
                 } catch(PDOException $e){
                     $errors[] = $e->getMessage();
-                    echo $e->getMessage();
+                   
                 }
             }
             else
@@ -75,31 +75,23 @@
         {
             $valname = $_POST['name'];
         }
-        if(!isset($_POST['name']) || empty($_POST['name']))
-        {
-            $errors[] = 'Last name is required';
-        }
-        else
-        {
-            $valname = $_POST['name'];
-        }
-  
-        if(!isset($_POST['id']) || empty($_POST['id']))
-        {
-            $errors[] = 'gwui is required';
-        }
-        else
-        {
-            $valid = $_POST['id'];
-        }
-  
         if(!isset($_POST['manufacturer']) || empty($_POST['manufacturer']))
         {
-            $errors[] = 'Password is required';
+            $errors[] = 'Manufacturer is required';
         }
         else
         {
-            $valmanufacturer = $_POST['manufacturer'];
+            $valname = $_POST['manufacturer'];
+        }
+  
+        if(!isset($_POST['latitude']) || empty($_POST['latitude']) || !isset($_POST['longitude']) || empty($_POST['longitude']))
+        {
+            $errors[] = 'Coordinate are required';
+        }
+        else
+        {
+            $vallatitude = $_POST['latitude'];
+            $vallongitude = $_POST['longitude'];
         }
         
     }
@@ -121,7 +113,19 @@
 <body>
   
     <?php include "../include/nav.php"; ?>
-    
+    <?php
+      if(isset($message)){
+        echo '<label class="text-success">'.$message.'</label>';
+      }
+
+      if(isset($errors) && count($errors) > 0)
+			{
+				foreach($errors as $error_msg)
+				{
+					echo '<div class="alert alert-danger">'.$error_msg.'</div>';
+				}
+      }
+    ?>
     <div class="album py-5 bg-body-tertiary">
     <div class="container">
     <div class="row justify-content-evenly">
@@ -156,14 +160,14 @@
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
-                              <input type="coords" class="form-control" name="latitude" id="latitude" placeholder="latitude">
+                              <input type="coords" class="form-control" name="latitude" id="latitude" placeholder="latitude" readonly>
                               <label for="name">Latitudine</label>
                             </div>
 
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
-                              <input type="coords" class="form-control" name="longitude" id="longitude" placeholder="longitude">
+                              <input type="coords" class="form-control" name="longitude" id="longitude" placeholder="longitude" readonly>
                               <label for="name">Longitudine</label>
                             </div>
 

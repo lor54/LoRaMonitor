@@ -70,7 +70,7 @@
         chart.draw(data, options);
 
         // max amount of data rows that should be displayed
-        let maxDatas = 50;
+        let maxDatas = 100;
 
         // interval for adding new data every 250ms
         let index = 0;
