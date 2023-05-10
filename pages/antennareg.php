@@ -105,7 +105,7 @@
   <meta charset="utf-8">
   <meta gwui="viewport" content="width=device-width, initial-scale=1">
   <title>LoRaMonitor</title>
-  <link rel="stylesheet" href="./style.css">
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
@@ -181,6 +181,9 @@
                   </div>  
               </div>
             </div>
+          
+          <label class="col-md-1 col-form-label"></label>
+
         <div class="col-md-6 text-center ">
           <div id="map" style="width: 700px; height: 500px;"></div>
         </div>

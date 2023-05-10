@@ -155,56 +155,95 @@
       }
     ?>
     
+    <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+    <div class="row justify-content-evenly">
+        <div class="col-sm-4">
+          <div class="card">
+                <div class="card-header col-md-9 mx-auto text-center">
+                    <h5 class="card-title">LoraMonitor</h5>
+                    <h6 class="card-text"></h6>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-9 mx-auto text-center">
 
-    <form method="post" id="signup" name="signup" class="register-form">
-      <div class="form-floating">
-        <input type="text" class="form-control" name=name id="name" placeholder="Nome">
-        <label for="name">Nome</label>
-      </div>
-      <div class="form-floating">
-        <input type="text" class="form-control" name=surname id="surname" placeholder="Cognome">
-        <label for="name">Cognome</label>
-      </div>
-      <div class="form-floating">
-        <input type="email" class="form-control" name=email id="email" placeholder="name@example.com">
-        <label for="email">Email address</label>
-      </div>
-      <div class="form-floating">
-        <input type="password" class="form-control" name=password id="password" placeholder="name@example.com">
-        <label for="password">Password</label>
-      </div>
+                        <form method="post" id="signup" name="signup" class="register-form">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" name=name id="name" placeholder="Nome">
+                            <label for="name">Nome</label>
+                          </div>
 
-      <label for="ruolo"></label>
-      <div class="form-floating">
-        <select class="form-select" name="role" id="role" aria-label="Role">
-          <option value="" disabled selected>Seleziona un ruolo</option>
-          <option value="studente">Studente</option>
-          <option value="ricercatore">Ricercatore</option>
-          <option value="professore">Professore</option>
-          <option value="altro">Altro</option>
-        </select>
-        <label for="role">Ruolo</label>
-      </div>
-      <button type="submit" class="btn btn-primary btn-lg" name="signup">signup</button>
-      <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
-    </form>
+                          <label class="col-md-1 col-form-label"></label>
 
-    <form method="post" id="login" name="login" class="login-form">
-      <div class="form-floating">
-        <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
-        <label for="email">Email address</label>
-      </div>
-      <div class="form-floating">
-        <input type="password" class="form-control" name="password" id="password" placeholder="name@example.com">
-        <label for="password">Password</label>
-      </div>
-      <div>
-        <button type="submit" class="btn btn-primary btn-lg" name=login>login</button>
-      </div>
-      <p class="message">Non ancora registrato? <a href="#">Crea un account</a></p>
-    </form>
-  </div>
-</div>
+                          <div class="form-floating">
+                            <input type="text" class="form-control" name=surname id="surname" placeholder="Cognome">
+                            <label for="name">Cognome</label>
+                          </div>
+
+                          <label class="col-md-1 col-form-label"></label>
+
+                          <div class="form-floating">
+                            <input type="email" class="form-control" name=email id="email" placeholder="name@example.com">
+                            <label for="email">Email address</label>
+                          </div>
+
+                          <label class="col-md-1 col-form-label"></label>
+
+                          <div class="form-floating">
+                            <input type="password" class="form-control" name=password id="password" placeholder="name@example.com">
+                            <label for="password">Password</label>
+                          </div>
+
+                          <label class="col-md-1 col-form-label"></label>
+
+                          <label for="ruolo"></label>
+                          <div class="form-floating">
+                            <select class="form-select" name="role" id="role" aria-label="Role">
+                              <option value="" disabled selected>Seleziona un ruolo</option>
+                              <option value="studente">Studente</option>
+                              <option value="ricercatore">Ricercatore</option>
+                              <option value="professore">Professore</option>
+                              <option value="altro">Altro</option>
+                            </select>
+                            <label for="role">Ruolo</label>
+                          </div>
+
+                          <label class="col-md-1 col-form-label"></label>
+
+                          <div class="d-grid gap-2 form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" name="signup">Signup</button>
+                          </div>
+
+                          <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
+                        </form>
+
+                        <form method="post" id="login" name="login" class="login-form">
+                          <div class="form-floating">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+                            <label for="email">Email address</label>
+                          </div>
+
+                          <label class="col-md-1 col-form-label"></label>
+
+
+                          <div class="form-floating">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="name@example.com">
+                            <label for="password">Password</label>
+                          </div>
+
+                          <label class="col-md-1 col-form-label"></label>
+
+                          <div class="d-grid gap-2 form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" name=login>Login</button>
+                          </div>
+                          <p class="message">Non ancora registrato? <a href="#">Crea un account</a></p>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+            </div>
+          </div>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
