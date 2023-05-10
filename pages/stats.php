@@ -3,21 +3,6 @@
 
     require_once("../include/database.php");
     include "../include/header.php";
-    
-    $result = array(); 
-
-      try {
-        $query = "SELECT * FROM gateways WHERE userid = :uid";
-        $statement = $connect->prepare($query);
-        $statement->execute(array('uid' => $_SESSION["uid"]));
-        $count = $statement->rowCount();
-          if($count > 0) {
-            $result = $statement->fetchAll();
-          }
-        } catch(PDOException $error) {
-          $message = $error->getMessage();
-          print_r($message);
-      }
 
 ?>
 
@@ -98,40 +83,32 @@
       let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
       map.addLayer(layer);
 
-    <?php
-      $count = 0;
-      echo 'let locations = [';
-      foreach($result as $row) {
-        if($count++ > 0) echo ',';
-        echo
-        '{
-          "id":' .$row["id"].','.
-          '"lat":' .$row["latitude"].','.
-          '"long":' .$row["longitude"].','.
-          '"name":"' .$row["name"].'" 
-        }';
-      }
-      echo '        ];';
-    ?>
+    let locations = [];
+    
+    fetch("/actions/getGateway.php")
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(jsonDecodedResponse) {
+      locations = jsonDecodedResponse;
 
-  let popupOption = {
-    "closeButton": false
-  };
+      let popupOption = {
+        "closeButton": false
+      };
 
-  locations.forEach(element => {
-    new L.Marker([element.lat,element.long]).addTo(map)
-    .on("mouseover", (event) => {
-        event.target.bindPopup('<div class="text-center"><b>' + element.name + '</b></div>', popupOption).openPopup();
-    })
-    .on("mouseout", (event) => {
-        event.target.closePopup();
-    })
-    .on("click" , () => {
-        window.open(element.url);
-    })
-});
-      
-        
+      locations.forEach(element => {
+        new L.Marker([element.latitude,element.longitude]).addTo(map)
+        .on("mouseover", (event) => {
+          event.target.bindPopup('<div class="text-center"><b>' + element.name + '</b></div>', popupOption).openPopup();
+        })
+        .on("mouseout", (event) => {
+          event.target.closePopup();
+        })
+        .on("click" , () => {
+          window.location = "/pages/gateway.php?id=" + element.id;
+        })
+      });
+    });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   </body>
