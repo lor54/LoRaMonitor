@@ -41,6 +41,7 @@
           },
           vAxis: {
             title: 'Usage',
+            viewWindow:{ min: 0 }
           },
         };
 
