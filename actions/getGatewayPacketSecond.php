@@ -81,7 +81,7 @@
 
                     $upPackets = getLastUpPacketsFromTime($connect, $gwui, $time);
                     $downPackets = getLastDownPacketsFromTime($connect, $gwui, $time);
-                    
+
                     $res->packetsCount += count($downPackets) + count($upPackets);
                 }
             }

@@ -109,6 +109,9 @@
         </div>
         <div class="mb-4 mb-md-4"></div>
         <div id="packet_second_chart"></div>
+
+        <div class="mb-4 mb-md-4"></div>
+        <div id="stats_second_chart"></div>
     </div>
     </div>
     <script
@@ -116,12 +119,6 @@
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
     <script>
-
-    google.charts.load('current', {
-        packages: ['corechart', 'line'],
-    });
-
-    google.charts.setOnLoadCallback(drawChart);
 
     var isEditing = false;
 
@@ -145,13 +142,23 @@
         }
     });
 
+    google.charts.load('current', {
+        packages: ['corechart', 'line'],
+    });
+
+    google.charts.setOnLoadCallback(drawChart);
+
     function drawChart() {
-        let data = google.visualization.arrayToDataTable([
+        let chart = new google.visualization.LineChart(
+            document.getElementById('packet_second_chart')
+        );
+
+        let packetsData = google.visualization.arrayToDataTable([
             ['Time', 'Packets per second'],
             [new Date(), 0],
         ]);
 
-        let options = {
+        let packetsOption = {
             "lineWidth": 2,
             "pointSize": 2,
             title: 'Packets per second on the gateway',
@@ -164,26 +171,69 @@
             }
         };
 
-        let chart = new google.visualization.LineChart(
-            document.getElementById('packet_second_chart')
-        );
-        chart.draw(data, options);
+        chart.draw(packetsData, packetsOption);
 
         let maxDatas = 10;
         let index = 0;
-        setInterval(async function () {
+        setInterval(async () => {
             const req = await fetch("/actions/getGatewayPacketSecond.php?id=<?php echo $gateway["id"]?>");
             const res = await req.json();
             const packetsCount = res.packetsCount;
 
-            if (data.getNumberOfRows() > maxDatas) {
-            data.removeRows(0, data.getNumberOfRows() - maxDatas);
+            if (packetsData.getNumberOfRows() > maxDatas) {
+                packetsData.removeRows(0, packetsData.getNumberOfRows() - maxDatas);
             }
 
-            data.addRow([new Date(), packetsCount]);
-            chart.draw(data, options);
+            packetsData.addRow([new Date(), packetsCount]);
+            chart.draw(packetsData, packetsOption);
 
             index++;
+        }, 1000);
+
+
+        let statsData = google.visualization.arrayToDataTable([
+            ['Time', 'Uplink packets per second', 'Uplink packets with valid CRC per second', 'Forwarded packets per second', 'Downlink packets per second', 'Emitted packets per second'],
+            [new Date(), 0, 0, 0, 0, 0],
+        ]);
+
+        let statsOption = {
+            "lineWidth": 2,
+            "pointSize": 2,
+            title: 'Complete stats of the gateway',
+            hAxis: {
+                textPosition: "none"
+            },
+            vAxis: {
+                title: 'Packets',
+                viewWindow:{ min: 0, max: 5 }
+            }
+        };
+
+        let statChart = new google.visualization.LineChart(
+            document.getElementById('stats_second_chart')
+        );
+        
+        statChart.draw(statsData, statsOption);
+
+        let maxStatDatas = 10;
+        let i = 0;
+        setInterval(async () => {
+            const req = await fetch("/actions/getGatewayStats.php?id=<?php echo $gateway["id"]?>");
+            const res = await req.json();
+            const uplinkPacketsReceivedCount = res.uplinkPacketsReceivedCount;
+            const packetsReceivedValidCRCCount = res.packetsReceivedValidCRCCount;
+            const packetsForwardedCount = res.packetsForwardedCount;
+            const downlinkPacketsReceivedCount = res.downlinkPacketsReceivedCount;
+            const emittedPacketsCount = res.emittedPacketsCount;
+
+            if (statsData.getNumberOfRows() > maxStatDatas) {
+                statsData.removeRows(0, statsData.getNumberOfRows() - maxStatDatas);
+            }
+
+            statsData.addRow([new Date(), uplinkPacketsReceivedCount,packetsReceivedValidCRCCount, packetsForwardedCount, downlinkPacketsReceivedCount, emittedPacketsCount]);
+            statChart.draw(statsData, statsOption);
+
+            i++;
         }, 1000);
     }
     

@@ -1,4 +1,4 @@
-<header class="shadow-sm p-3 mb-5 border-bottom bg-light sticky-top">
+<header class="shadow-sm p-3 mb-5 border-bottom bg-light bg-gradient sticky-top">
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -7,7 +7,7 @@
       </ul>
 
       <?php if($actual_page == "dashboard") echo ' <a href="pages/antennareg.php">
-                                                      <button type="button" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary">Aggiungi antenna +</button>
+                                                      <button type="button" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary brn-gradient">Aggiungi antenna +</button>
                                                    </a>';?>
 
       <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onkeypress="return event.keyCode != 13;">
