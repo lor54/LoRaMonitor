@@ -10,7 +10,7 @@
                                                       <button type="button" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary">Aggiungi antenna +</button>
                                                    </a>';?>
 
-      <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+      <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onkeypress="return event.keyCode != 13;">
         <input name="search" type="search" class="form-control" placeholder="Search..." aria-label="Search">
       </form>';?>
 
