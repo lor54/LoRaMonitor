@@ -11,7 +11,7 @@
                                                    </a>';?>
 
       <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        <input name="search" type="search" class="form-control" placeholder="Search..." aria-label="Search">
       </form>';?>
 
       <div class="dropdown text-end">
@@ -19,8 +19,6 @@
           <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
         </a>
         <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="#">New project...</a></li>
-          <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><a class="dropdown-item" href="#">Profile</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="/actions/logout.php">Sign out</a></li>

@@ -13,9 +13,8 @@
       <div class="h-100 d-flex align-items-center justify-content-center">
         <div id="map" style="width: 700px; height: 500px;"></div>
       </div>
-    
-    <!-- CONTAINER FOR CHART -->
-      <div id="chart_div"></div>
+      <div class="mb-4 mb-md-4"></div>
+      <div id="packet_second_chart"></div>
     </div>
     <script
       type="text/javascript"
@@ -31,29 +30,31 @@
       function drawChart() {
         let data = google.visualization.arrayToDataTable([
           ['Time', 'Packets per second'],
-          [0, 0],
+          [new Date(), 0],
         ]);
 
         let options = {
-          title: 'Packets per second',
+          "lineWidth": 2,
+          "pointSize": 2,
+          title: 'Packets per second on the entire network',
           hAxis: {
-            textPosition: 'none',
+            textPosition: "none"
           },
           vAxis: {
-            title: 'Usage',
-            viewWindow:{ min: 0 }
-          },
+            title: 'Packets',
+            viewWindow:{ min: 0, max: 5 }
+          }
         };
 
         let chart = new google.visualization.LineChart(
-          document.getElementById('chart_div')
+          document.getElementById('packet_second_chart')
         );
         chart.draw(data, options);
 
-        let maxDatas = 1000;
+        let maxDatas = 10;
         let index = 0;
         setInterval(async function () {
-          const req = await fetch("/actions/getGatewayPacketSecond.php?id=1");
+          const req = await fetch("/actions/getGatewayPacketSecond.php");
           const res = await req.json();
           const packetsCount = res.packetsCount;
 
@@ -61,16 +62,16 @@
             data.removeRows(0, data.getNumberOfRows() - maxDatas);
           }
 
-          data.addRow([index, packetsCount]);
+          data.addRow([new Date(), packetsCount]);
           chart.draw(data, options);
 
           index++;
         }, 1000);
       }
       let mapOptions = {
-      center:[41.8902, 12.4922], 
-      zoom:10
-     }
+        center:[41.8902, 12.4922], 
+        zoom:10
+      }
 
       let map = new L.map('map', mapOptions);
       let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');

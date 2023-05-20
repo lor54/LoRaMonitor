@@ -100,15 +100,28 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div class="mb-4 mb-md-0"></div>
             <div class="container">
                 <div class="h-100 d-flex align-items-center justify-content-center">
                     <div id="map" style="width: 600px; height: 400px;"></div>
                 </div>
             </div>
         </div>
+        <div class="mb-4 mb-md-4"></div>
+        <div id="packet_second_chart"></div>
     </div>
     </div>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
     <script>
+
+    google.charts.load('current', {
+        packages: ['corechart', 'line'],
+    });
+
+    google.charts.setOnLoadCallback(drawChart);
 
     var isEditing = false;
 
@@ -130,7 +143,49 @@
             document.getElementById('latitude').value = event.latlng.lat;
             document.getElementById('longitude').value = event.latlng.lng;
         }
-    })
+    });
+
+    function drawChart() {
+        let data = google.visualization.arrayToDataTable([
+            ['Time', 'Packets per second'],
+            [new Date(), 0],
+        ]);
+
+        let options = {
+            "lineWidth": 2,
+            "pointSize": 2,
+            title: 'Packets per second on the gateway',
+            hAxis: {
+                textPosition: "none"
+            },
+            vAxis: {
+                title: 'Packets',
+                viewWindow:{ min: 0, max: 5 }
+            }
+        };
+
+        let chart = new google.visualization.LineChart(
+            document.getElementById('packet_second_chart')
+        );
+        chart.draw(data, options);
+
+        let maxDatas = 10;
+        let index = 0;
+        setInterval(async function () {
+            const req = await fetch("/actions/getGatewayPacketSecond.php?id=<?php echo $gateway["id"]?>");
+            const res = await req.json();
+            const packetsCount = res.packetsCount;
+
+            if (data.getNumberOfRows() > maxDatas) {
+            data.removeRows(0, data.getNumberOfRows() - maxDatas);
+            }
+
+            data.addRow([new Date(), packetsCount]);
+            chart.draw(data, options);
+
+            index++;
+        }, 1000);
+    }
     
     function editGateway() {        
         isEditing = true;

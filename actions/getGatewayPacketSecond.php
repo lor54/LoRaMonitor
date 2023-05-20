@@ -60,6 +60,39 @@
             $message = $error->getMessage();
             print_r($message);
         }
+    } else {
+        try {
+            $now = time();
+            $date = new DateTimeImmutable();
+
+            $time = $date->format('Y-m-d H:i:s') . ' GMT';
+
+            $query = "SELECT * FROM gateways WHERE userid = :uid";
+            $statement = $connect->prepare($query);
+            $statement->execute(array('uid' => $_SESSION["uid"]));
+            $count = $statement->rowCount();
+
+            if($count > 0) {
+                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $res = new StdClass();
+                $res->packetsCount = 0;
+                for($i = 0; $i < $count; $i++) {
+                    $gwui = $result[$i]["gwui"];
+
+                    $upPackets = getLastUpPacketsFromTime($connect, $gwui, $time);
+                    $downPackets = getLastDownPacketsFromTime($connect, $gwui, $time);
+                    
+                    $res->packetsCount += count($downPackets) + count($upPackets);
+                }
+            }
+
+            http_response_code(200);
+            header('Content-type: application/json');
+            echo json_encode($res);
+        } catch(PDOException $error) {
+            $message = $error->getMessage();
+            print_r($message);
+        }   
     }
 
 
