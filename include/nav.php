@@ -3,15 +3,15 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 <?php if($actual_page == "dashboard") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Dashboard</a></li>
-        <li><a href="/pages/stats.php" class="nav-link px-2 <?php if($actual_page == "stats") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>">Stats</a></li>
+        <li><a href="/pages/stats.php" class="nav-link px-2 <?php if($actual_page == "stats") echo 'link-secondary disabled'; else echo 'link-body-emphasis';?>"><?php echo $language["STATS-NAV"]; ?></a></li>
       </ul>
 
       <?php if($actual_page == "dashboard") echo ' <a href="pages/antennareg.php">
-                                                      <button type="button" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary brn-gradient">Aggiungi antenna +</button>
+                                                      <button type="button" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 btn btn-primary brn-gradient">' . $language["ADD-GW-NAV"] . ' +</button>
                                                    </a>';?>
 
       <?php if($actual_page == "dashboard") echo '<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onkeypress="return event.keyCode != 13;">
-        <input name="search" type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        <input name="search" type="search" class="form-control" placeholder="' . $language["SEARCH-GW-NAV"] . '..." aria-label="Search">
       </form>';?>
 
       <div class="dropdown text-end">

@@ -3,6 +3,8 @@
   if(!isset($_SESSION["email"])) {
     header("location:/auth.php");
   }
+
+  require("locals/it.php");
 ?>
 
 <!doctype html>

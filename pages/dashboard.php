@@ -1,5 +1,6 @@
 <?php
     $actual_page = "dashboard";
+
     include "include/header.php";
 ?>
 
@@ -58,7 +59,7 @@
 
                         <div class="card-body">
                           <div class="d-flex justify-content-between">
-                            <small class="text-body-secondary">Manufacturer: ` + gw["manufacturer"] + `</small>            
+                            <small class="text-body-secondary"><?php echo $language["GW-MANUFACTURER"]; ?>: ` + gw["manufacturer"] + `</small>            
                           </div>
                         </div>
                         </a>
