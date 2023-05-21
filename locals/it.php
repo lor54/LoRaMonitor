@@ -21,4 +21,9 @@
     $language["PR-EMAIL"] = "Indirizzo Email";
     $language["ED-BUTTON"] = "Modifica";
     $language["EDIT-SUCCESS"] = "Modifica effettuata con successo!";
+    $language["OLD-PASS"] = "Inserisci la vecchia password";
+    $language["CHANGE-PASSWORD"] = "Cambio password";
+    $language["INS-PASSWORD"] = "Inserisci la nuova password";
+    $language["REINS-PASSWORD"] = "Reinserisci la nuova password";
+    $language["ADD-IMMAGE"] = "Modifica immagine profilo";
 ?>

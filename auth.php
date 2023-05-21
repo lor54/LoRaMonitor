@@ -189,7 +189,7 @@
                           <label class="col-md-1 col-form-label"></label>
 
                           <div class="form-floating">
-                            <input type="password" class="form-control" name=password id="password" placeholder="name@example.com">
+                            <input type="password" class="form-control" name=password id="password" placeholder="">
                             <label for="password">Password</label>
                           </div>
 
