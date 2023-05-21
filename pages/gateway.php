@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col">
                             <h5 id="cardtitlename" class="card-title"><?php echo $gateway["name"]; ?></h5>
-                            <h6 class="card-text">Gateway Information</h6>
+                            <h6 class="card-text"><?php echo $language["GW-INFORMATION"]; ?></h6>
                         </div>
                         <div class="col">
                             <div class="float-end">

@@ -3,4 +3,5 @@
     $language["ADD-GW-NAV"] = "Aggiungi Gateway";
     $language["SEARCH-GW-NAV"] = "Cerca";
     $language["STATS-NAV"] = "Statistiche";
+    $language["GW-INFORMATION"] = "Informazioni Gateway";
 ?>

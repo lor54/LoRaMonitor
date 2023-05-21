@@ -4,7 +4,29 @@
     header("location:/auth.php");
   }
 
-  require("locals/it.php");
+  if(!isset($_COOKIE[$cookie_name])) {
+    if(!isset($lang)) {
+      setcookie($cookie_name, "it", time() + 60*60*24*30);
+      $choosenLanguage = "it";
+    }
+  }
+
+  $lang = $_GET["lang"];
+  $cookie_name = "LoRaMonitorLanguage";
+  if(isset($lang)) {
+    if($lang == "it") {
+      setcookie($cookie_name, "it", time() + 60*60*24*30);
+    }
+
+    if($lang == "en") {
+      setcookie($cookie_name, "en", time() + 60*60*24*30);
+    }
+  }
+
+  $choosenLanguage = isset($lang) ? $lang : $_COOKIE[$cookie_name];
+  if(isset($_COOKIE[$cookie_name])) {
+    require($_SERVER["DOCUMENT_ROOT"] . "/locals/". $choosenLanguage . ".php");
+  }
 ?>
 
 <!doctype html>
@@ -33,4 +55,6 @@
 <?php if($actual_page == "stats") echo '
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>';?>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"/>
 </head>

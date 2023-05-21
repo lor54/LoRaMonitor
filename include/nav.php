@@ -14,7 +14,7 @@
         <input name="search" type="search" class="form-control" placeholder="' . $language["SEARCH-GW-NAV"] . '..." aria-label="Search">
       </form>';?>
 
-      <div class="dropdown text-end">
+      <div class="dropdown text-end col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
         </a>
@@ -24,6 +24,14 @@
           <li><a class="dropdown-item" href="/actions/logout.php">Sign out</a></li>
         </ul>
       </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $choosenLanguage == "it" ? 'Italiano <span class="fi fi-it fis"></span>' : 'English <span class="fi fi-gb fis"></span>';?></button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="?lang=it">Italiano <span class="fi fi-it fis"></span></a></li>
+        <li><a class="dropdown-item" href="?lang=en">English <span class="fi fi-gb fis"></span></a></li>
+      </ul>
+    </div>
     </div>
   </div>
 </header>
