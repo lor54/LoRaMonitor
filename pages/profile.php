@@ -43,8 +43,8 @@
                 </div>
                 <div class="card-body">
                     <div class="col-md-9 mx-auto text-center">
-                        <form action="/actions/editUsers.php" id="gweditform">
-                        <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
+                        <form method="post" action="/actions/editUsers.php" id="gweditform">
+                            <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
                         
                             <div class="form-floating">
                                 <input type="email" class="form-control" name=email id="email" placeholder="name@example.com" value="<?php echo $user["email"]; ?>">
