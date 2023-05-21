@@ -20,4 +20,5 @@
     $language["PR-SURNAME"] = "Cognome";
     $language["PR-EMAIL"] = "Indirizzo Email";
     $language["ED-BUTTON"] = "Modifica";
+    $language["EDIT-SUCCESS"] = "Modifica effettuata con successo!";
 ?>

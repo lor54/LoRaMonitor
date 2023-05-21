@@ -43,7 +43,7 @@
                 </div>
                 <div class="card-body">
                     <div class="col-md-9 mx-auto text-center">
-                        <form method="post" action="/actions/editUsers.php" id="gweditform">
+                        <form method="post" action="/actions/editUser.php" id="usereditform">
                             <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
                         
                             <div class="form-floating">
@@ -69,7 +69,7 @@
 
                             
                             <div class="d-grid gap-2 form-group">
-                                <button id="editButtonSubmit" type="submit" class="btn btn-success" style="display:none"><?php echo $language["ED-BUTTON"]; ?></button>
+                                <button id="editButtonSubmit" type="submit" class="btn btn-success"><?php echo $language["ED-BUTTON"]; ?></button>
                             </div>
                         </form>
                     </div>
@@ -77,5 +77,28 @@
             </div>
         </div>
     </div>
+    <script>
+        $("#usereditform").submit(function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(),
+                success: function(data) {
+                    if(data) alert(data);
+                    else {
+                        $.snack("success", "<?php echo $language["EDIT-SUCCESS"]; ?>", 3000);
+                    }
+                },
+                error: function(data) {
+                    if(data) alert(data);
+                }
+            });
+        });
+    </script>
     <?php include "../include/footer.php"; ?>
 </body>
