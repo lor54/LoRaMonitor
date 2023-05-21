@@ -25,5 +25,5 @@
     $language["CHANGE-PASSWORD"] = "Change password";
     $language["INS-PASSWORD"] = "Insert new password";
     $language["REINS-PASSWORD"] = "Insert again new password";
-    $language["ADD-IMMAGE"] = "Modify profile immage";
+    $language["ADD-IMAGE"] = "Modify profile image";
 ?>
