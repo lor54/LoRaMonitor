@@ -65,34 +65,34 @@
 
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $gateway["name"]; ?>" disabled>
-                                <label for="name">Name</label>
+                                <label for="name"><?php echo $language["GW-NAME"]; ?></label>
                             </div>
 
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Manufacturer" value="<?php echo $gateway["manufacturer"]; ?>" disabled>
-                                <label for="manufacturer">Manufacturer</label>
+                                <label for="manufacturer"><?php echo $language["GW-MANUFACTURER"]; ?></label>
                             </div>
 
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
                                 <input type="coords" class="form-control" id="latitude" name="latitude" placeholder="Latitude" value="<?php echo $gateway["latitude"]; ?>" disabled readonly>
-                                <label for="latitude">Latitude</label>
+                                <label for="latitude"><?php echo $language["GW-LATITUDE"]; ?></label>
                             </div>
 
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="form-floating">
                                 <input type="coords" class="form-control" id="longitude" name="longitude" placeholder="Longitude" value="<?php echo $gateway["longitude"]; ?>" disabled readonly>
-                                <label for="longitude">Longitude</label>
+                                <label for="longitude"><?php echo $language["GW-LONGITUDE"]; ?></label>
                             </div>
 
                             <label class="col-md-1 col-form-label"></label>
 
                             <div class="d-grid gap-2 form-group">
-                                <button id="editButtonSubmit" type="submit" class="btn btn-success" style="display:none">Edit</button>
+                                <button id="editButtonSubmit" type="submit" class="btn btn-success" style="display:none"><?php echo $language["ED-BUTTON"]; ?></button>
                             </div>
                         </form>
                     </div>
@@ -154,19 +154,19 @@
         );
 
         let packetsData = google.visualization.arrayToDataTable([
-            ['Time', 'Packets per second'],
+            ['Time', '<?php echo $language["GR-ST-PACKETSPERSECOND"]; ?>'],
             [new Date(), 0],
         ]);
 
         let packetsOption = {
             "lineWidth": 2,
             "pointSize": 2,
-            title: 'Packets per second on the gateway',
+            title: '<?php echo $language["GR-ST-TITLE"]; ?>',
             hAxis: {
                 textPosition: "none"
             },
             vAxis: {
-                title: 'Packets',
+                title: '<?php echo $language["GR-ST-SIDETITLE"]; ?>',
                 viewWindow:{ min: 0, max: 5 }
             }
         };
@@ -192,19 +192,19 @@
 
 
         let statsData = google.visualization.arrayToDataTable([
-            ['Time', 'Uplink packets per second', 'Uplink packets with valid CRC per second', 'Forwarded packets per second', 'Downlink packets per second', 'Emitted packets per second'],
+            ['Time', '<?php echo $language["GR-GW-UPLPACKETSPERSECOND"]; ?>', '<?php echo $language["GR-GW-UPLPACKETSWHITVALIDCRCPERSECOND"]; ?>', '<?php echo $language["GR-GW-FORWARDEDPACKETSPERSECOND"]; ?>', '<?php echo $language["GR-GW-DOWNLINKPACKETSPERSECOND"]; ?>', '<?php echo $language["GR-GW-EMITTEDPACKETSPERSECOND"]; ?>'],
             [new Date(), 0, 0, 0, 0, 0],
         ]);
 
         let statsOption = {
             "lineWidth": 2,
             "pointSize": 2,
-            title: 'Complete stats of the gateway',
+            title: '<?php echo $language["GR-GW-TITLE"]; ?>',
             hAxis: {
                 textPosition: "none"
             },
             vAxis: {
-                title: 'Packets',
+                title: '<?php echo $language["GR-ST-SIDETITLE"]; ?>',
                 viewWindow:{ min: 0, max: 5 }
             }
         };

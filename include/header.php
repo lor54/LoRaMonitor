@@ -4,6 +4,9 @@
     header("location:/auth.php");
   }
 
+  $cookie_name = "LoRaMonitorLanguage";
+  $choosenLanguage = "it";
+
   if(!isset($_COOKIE[$cookie_name])) {
     if(!isset($lang)) {
       setcookie($cookie_name, "it", time() + 60*60*24*30);
@@ -12,7 +15,6 @@
   }
 
   $lang = $_GET["lang"];
-  $cookie_name = "LoRaMonitorLanguage";
   if(isset($lang)) {
     if($lang == "it") {
       setcookie($cookie_name, "it", time() + 60*60*24*30);

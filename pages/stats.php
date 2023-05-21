@@ -29,19 +29,19 @@
 
       function drawChart() {
         let data = google.visualization.arrayToDataTable([
-          ['Time', 'Packets per second'],
+          ['Time', '<?php echo $language["GR-ST-PACKETSPERSECOND"]; ?>'],
           [new Date(), 0],
         ]);
 
         let options = {
           "lineWidth": 2,
           "pointSize": 2,
-          title: 'Packets per second on the entire network',
+          title: '<?php echo $language["GR-ST-TITLE"]; ?>',
           hAxis: {
             textPosition: "none"
           },
           vAxis: {
-            title: 'Packets',
+            title: '<?php echo $language["GR-ST-SIDETITLE"]; ?>',
             viewWindow:{ min: 0, max: 5 }
           }
         };

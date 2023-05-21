@@ -7,7 +7,7 @@
   try {
     if(isset($_POST["login"])){
       if(empty($_POST["email"]) || empty($_POST["password"])){
-        $message = '<label>Campi non completi</label>';
+        $message = '<label>Incomplete field</label>';
       }
       else {
         $hashPassword = hash("sha256", $_POST["password"]);
@@ -22,7 +22,7 @@
               $_SESSION["uid"] = $user["id"];
               header("location:actions/login_success.php");
             } else {
-              $message = '<label>Mail o Password errate</label>';
+              $message = '<label>Wrong Mail or Password</label>';
             }
       }
     }
@@ -53,7 +53,7 @@
               
               if($statement->rowCount() == 0)
               {
-                  $query = "insert into users (name, surname, email, password, ruolo) values (:name,:surname,:email,:password, :ruolo)";
+                  $query = "insert into users (name, surname, email, password) values (:name,:surname,:email,:password)";
               
                   try{
                       $statement = $connect->prepare($query);
@@ -61,8 +61,7 @@
                           ':name'=>$name,
                           ':surname'=>$surname,
                           ':email'=>$email,
-                          ':password'=>$hashPassword,
-                          ':ruolo'=>"studente"
+                          ':password'=>$hashPassword
                       ];
                       
                       $statement->execute($params);
@@ -170,14 +169,14 @@
                         <form method="post" id="signup" name="signup" class="register-form">
                           <div class="form-floating">
                             <input type="text" class="form-control" name=name id="name" placeholder="Nome">
-                            <label for="name">Nome</label>
+                            <label for="name">Name</label>
                           </div>
 
                           <label class="col-md-1 col-form-label"></label>
 
                           <div class="form-floating">
                             <input type="text" class="form-control" name=surname id="surname" placeholder="Cognome">
-                            <label for="name">Cognome</label>
+                            <label for="name">Surname</label>
                           </div>
 
                           <label class="col-md-1 col-form-label"></label>
@@ -196,17 +195,6 @@
 
                           <label class="col-md-1 col-form-label"></label>
 
-                          <label for="ruolo"></label>
-                          <div class="form-floating">
-                            <select class="form-select" name="role" id="role" aria-label="Role">
-                              <option value="" disabled selected>Seleziona un ruolo</option>
-                              <option value="studente">Studente</option>
-                              <option value="ricercatore">Ricercatore</option>
-                              <option value="professore">Professore</option>
-                              <option value="altro">Altro</option>
-                            </select>
-                            <label for="role">Ruolo</label>
-                          </div>
 
                           <label class="col-md-1 col-form-label"></label>
 
@@ -214,7 +202,7 @@
                             <button type="submit" class="btn btn-primary btn-lg" name="signup">Signup</button>
                           </div>
 
-                          <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
+                          <p class="message">Are you alredy registered? <a href="#">Signup</a></p>
                         </form>
 
                         <form method="post" id="login" name="login" class="login-form">
@@ -236,7 +224,7 @@
                           <div class="d-grid gap-2 form-group">
                             <button type="submit" class="btn btn-primary btn-lg" name=login>Login</button>
                           </div>
-                          <p class="message">Non ancora registrato? <a href="#">Crea un account</a></p>
+                          <p class="message">Not registered? <a href="#">Create an account</a></p>
                         </form>
                       </div>
                     </div>
