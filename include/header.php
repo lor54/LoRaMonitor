@@ -5,30 +5,15 @@
   }
 
   $cookie_name = "LoRaMonitorLanguage";
-  $choosenLanguage = "it";
+  $choosenLanguage = "en";
 
   if(!isset($_COOKIE[$cookie_name])) {
-    if(!isset($lang)) {
-      setcookie($cookie_name, "it", time() + 60*60*24*30);
-      $choosenLanguage = "it";
-    }
+    setcookie($cookie_name, "en", time() + 60*60*24*30, "/");
+    $choosenLanguage = "en";
   }
 
-  $lang = $_GET["lang"];
-  if(isset($lang)) {
-    if($lang == "it") {
-      setcookie($cookie_name, "it", time() + 60*60*24*30);
-    }
-
-    if($lang == "en") {
-      setcookie($cookie_name, "en", time() + 60*60*24*30);
-    }
-  }
-
-  $choosenLanguage = isset($lang) ? $lang : $_COOKIE[$cookie_name];
-  if(isset($_COOKIE[$cookie_name])) {
-    require($_SERVER["DOCUMENT_ROOT"] . "/locals/". $choosenLanguage . ".php");
-  }
+  $choosenLanguage = $_COOKIE[$cookie_name];
+  require($_SERVER["DOCUMENT_ROOT"] . "/locals/". $choosenLanguage . ".php");
 ?>
 
 <!doctype html>
@@ -45,6 +30,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="/scripts/toast.js"></script>
   <link rel="stylesheet" href="/styles/toast.css">
+  <script src="/scripts/language.js"></script>
 
   <?php if($actual_page == "gateway") echo '
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>

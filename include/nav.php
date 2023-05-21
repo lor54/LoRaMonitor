@@ -28,8 +28,8 @@
     <div class="btn-group">
       <button type="button" class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $choosenLanguage == "it" ? 'Italiano <span class="fi fi-it fis"></span>' : 'English <span class="fi fi-gb fis"></span>';?></button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="?lang=it">Italiano <span class="fi fi-it fis"></span></a></li>
-        <li><a class="dropdown-item" href="?lang=en">English <span class="fi fi-gb fis"></span></a></li>
+        <li><a class="dropdown-item" onclick="changeLanguage('it')">Italiano <span class="fi fi-it fis"></span></a></li>
+        <li><a class="dropdown-item" onclick="changeLanguage('en')">English <span class="fi fi-gb fis"></span></a></li>
       </ul>
     </div>
     </div>
