@@ -40,4 +40,44 @@
             print_r($message);
         }
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+        $id = $_POST["id"];
+        $oldpassword = $_POST["oldpassword"];
+        $password1 = $_POST["password1"];
+        $password2 = $_POST["password2"];
+    
+        
+        $query = "SELECT * FROM users WHERE id = :id";
+        $statement = $connect->prepare($query);
+        $statement->execute(array('id' => $id));
+        $user = $statement->fetch();
+    
+        
+        if (password_verify($oldpassword, $user["password"])) {
+           
+            if ($password1 == $password2) {
+              
+                $hashedPassword = hash('sha256', $password1);
+    
+               
+                $query = "UPDATE users SET password = :password WHERE id = :id";
+                $statement = $connect->prepare($query);
+                $statement->execute(array('password' => $hashedPassword, 'id' => $id));
+    
+               
+                echo "La password è stata aggiornata con successo!";
+            } else {
+               
+                echo "Le nuove password non corrispondono!";
+            }
+        } else {
+            
+            echo "La vecchia password non è corretta!";
+        }
+    }
 ?>
+
+
+

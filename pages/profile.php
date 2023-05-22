@@ -46,7 +46,16 @@
                             <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
                         
                             <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-                                <img src="/media/man.jpeg" class="card-img-top img-cover">
+                                <div class="profile-pic">
+                                    <label for="file">
+                                        <img src="/media/man.jpeg" class="card-img-top img-cover" id="impr" name="impr">
+                                        <div class="upload-button">
+                                            <span class="glyphicon glyphicon-camera"></span>
+                                        </div>
+                                    </label>
+                                    <input id="file" type="file" onchange="loadFile(event)"/>
+                                    
+                                </div>
                             </div>
                             <label class="col-md-1 col-form-label"></label>
 
@@ -121,21 +130,21 @@
                             
                                 <div class="form-floating">
                                     <input type="password" class="form-control" name="oldpassword" id="oldpassword" placeholder="">
-                                    <label for="email"><?php echo $language["OLD-PASS"]; ?></label>
+                                    <label for="oldpassword"><?php echo $language["OLD-PASS"]; ?></label>
                                 </div>
 
                                 <label class="col-md-1 col-form-label"></label>
 
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="password1" name="password1" placeholder="">
-                                    <label for="name"><?php echo $language["INS-PASSWORD"]; ?></label>
+                                    <label for="password1"><?php echo $language["INS-PASSWORD"]; ?></label>
                                 </div>
 
                                 <label class="col-md-1 col-form-label"></label>
 
                                 <div class="form-floating">
                                     <input type="password" class="form-control" name="password2" id="password2" placeholder="">
-                                    <label for="name"><?php echo $language["REINS-PASSWORD"]; ?></label>
+                                    <label for="password2"><?php echo $language["REINS-PASSWORD"]; ?></label>
                                 </div>
 
                                 <label class="col-md-1 col-form-label"></label>
@@ -172,6 +181,26 @@
                 }
             });
         });
+
+        var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+        function uploadImage() {
+        var image = document.getElementById("output");
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        context.drawImage(image, 0, 0);
+
+        var base64Image = canvas.toDataURL("image/jpeg");
+    }
+
+   
     </script>
     <?php include "../include/footer.php"; ?>
 </body>
