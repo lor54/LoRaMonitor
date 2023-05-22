@@ -26,4 +26,5 @@
     $language["INS-PASSWORD"] = "Inserisci la nuova password";
     $language["REINS-PASSWORD"] = "Reinserisci la nuova password";
     $language["ADD-IMAGE"] = "Modifica immagine profilo";
+    $language["GW-NOTFOUND"] = "Non hai alcun gateway collegato 😢.  Inizia aggiungendone uno!"
 ?>

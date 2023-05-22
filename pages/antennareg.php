@@ -1,9 +1,8 @@
 <?php
-    $actual_page = "antennareg";
+  $actual_page = "antennareg";
 
-    require_once("../include/database.php");
-    include "../include/header.php";
-    $gateways = array();
+  include "../include/header.php";
+  $gateways = array();
 
 
   if(isset($_POST['addantenna']))

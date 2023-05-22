@@ -1,27 +1,6 @@
 <?php
     $actual_page = "profile";
-    require_once("../include/database.php");
-
     include "../include/header.php";
-
-    $users = array();
-
-    try {
-        $query = "SELECT * FROM users WHERE id = :uid";
-        $statement = $connect->prepare($query);
-        $statement->execute(array('uid' => $_SESSION["uid"]));
-        $count = $statement->rowCount();
-        if($count > 0) {
-            $users = $statement->fetchAll();
-        }
-    } catch(PDOException $error) {
-        $message = $error->getMessage();
-        print_r($message);
-    }
-    
-    $user = "";
-    if(sizeof($users) > 0)
-        $user = $users[0];
 ?>
 
 <body>
@@ -42,28 +21,20 @@
 
                 <div class="card-body">
                     <div class="col-md-7 mx-auto">
-                        <form method="post" action="/actions/editUser.php" id="usereditform">
+                        <form method="post" action="/actions/editUser.php" id="imageditform">
                             <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
                         
                             <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
                                 <div class="profile-pic">
-                                    <label for="file">
-                                        <img src="/media/man.jpeg" class="card-img-top img-cover" id="impr" name="impr">
-                                        <div class="upload-button">
-                                            <span class="glyphicon glyphicon-camera"></span>
-                                        </div>
-                                    </label>
-                                    <input id="file" type="file" onchange="loadFile(event)"/>
-                                    
+                                    <img src="<?php if($user["image"]) echo $user["image"]; else echo '/media/man.jpeg'; ?>" class="card-img-top img-cover" id="profileimg" name="profileimg">
+                                    <input id="file" type="file" hidden/>
                                 </div>
                             </div>
                             <label class="col-md-1 col-form-label"></label>
-
-                            
+                        </form>                            
                             <div class="d-grid gap-2 form-group">
-                                <button id="editButtonSubmit" type="submit" class="btn btn-success"><?php echo $language["ED-BUTTON"]; ?></button>
+                                <button id="editImageButton" class="btn btn-success"><?php echo $language["ED-BUTTON"]; ?></button>
                             </div>
-                        </form>
                     </div>
                 </div>  
             </div>
@@ -80,7 +51,7 @@
                     </div>
                     <div class="card-body">
                         <div class="col-md-9 mx-auto text-center">
-                            <form method="post" action="/actions/editUser.php" id="usereditform">
+                            <form method="post" action="/actions/editUser.php" id="usereditform" name="usereditform">
                                 <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
                             
                                 <div class="form-floating">
@@ -125,7 +96,7 @@
                     </div>
                     <div class="card-body">
                         <div class="col-md-9 mx-auto text-center">
-                            <form method="post" action="/actions/editUser.php" id="usereditform">
+                            <form method="post" action="/actions/editUser.php" id="passwordeditform" name="passwordeditform">
                                 <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $user["id"]; ?>">
                             
                                 <div class="form-floating">
@@ -149,7 +120,6 @@
 
                                 <label class="col-md-1 col-form-label"></label>
 
-                                
                                 <div class="d-grid gap-2 form-group">
                                     <button id="editButtonSubmit" type="submit" class="btn btn-success"><?php echo $language["ED-BUTTON"]; ?></button>
                                 </div>
@@ -182,25 +152,79 @@
             });
         });
 
-        var loadFile = function (event) {
-        var image = document.getElementById("output");
-        image.src = URL.createObjectURL(event.target.files[0]);
+        $("#passwordeditform").submit(function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(),
+                success: function(data) {
+                    if(data) {
+                        $.snack("success", "<?php echo $language["EDIT-SUCCESS"]; ?>", 3000);
+                    }
+                },
+                error: function(data) {
+                    if(data) alert(data);
+                }
+            });
+        });
+
+        document.getElementById('editImageButton').onclick = function() {
+            document.getElementById('file').click();
         };
 
-        function uploadImage() {
-        var image = document.getElementById("output");
-        var canvas = document.createElement("canvas");
-        var context = canvas.getContext("2d");
+        $('input[type=file]').change(function (e) {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+            {
+                var reader = new FileReader();
 
-        canvas.width = image.width;
-        canvas.height = image.height;
+                reader.onload = async (e) => {
+                    var base64 = e.target.result;
+                    var newbase64 = await resizeBase64Img(base64, 115, 115);
+                    $.ajax({
+                        type: "POST",
+                        url: "/actions/changeImage.php",
+                        data: JSON.stringify({"image": newbase64}),
+                        success: function(data) {
+                            document.getElementById("profileimg").src = newbase64;
+                            document.getElementById("profileimagenav").src = newbase64;
+                            
+                            $.snack("success", "<?php echo $language["EDIT-SUCCESS"]; ?>", 3000);
+                        },
+                        error: function(data) {
+                            console.log(data.responseText);
+                            if(data) alert(data);
+                        }
+                    });
+                };
 
-        context.drawImage(image, 0, 0);
+                reader.readAsDataURL(input.files[0]);
+            }
 
-        var base64Image = canvas.toDataURL("image/jpeg");
-    }
-
-   
+            function resizeBase64Img(src, newX, newY) {
+                return new Promise((res, rej) => {
+                    const img = new Image();
+                    img.src = src;
+                    img.onload = () => {
+                        const elem = document.createElement('canvas');
+                        elem.width = newX;
+                        elem.height = newY;
+                        const ctx = elem.getContext('2d');
+                        ctx.drawImage(img, 0, 0, newX, newY);
+                        const data = ctx.canvas.toDataURL();
+                        res(data);
+                    }
+                    img.onerror = error => rej(error);
+                });
+            }
+        });
     </script>
     <?php include "../include/footer.php"; ?>
 </body>

@@ -1,7 +1,15 @@
+body {
+    font-family: "Gill Sans", sans-serif !important;
+}
+
 .dropdown-toggle:not(:focus) {
     outline: 0;
 }
 
 body {
     background: -webkit-linear-gradient(right, #F8F9FA, #F8F9FA);
+}
+
+.profileImg {
+    height:100%
 }

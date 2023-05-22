@@ -1,7 +1,5 @@
 <?php
     $actual_page = "stats";
-
-    require_once("../include/database.php");
     include "../include/header.php";
 
 ?>

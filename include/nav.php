@@ -16,7 +16,7 @@
 
       <div class="dropdown text-end col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+          <img src="<?php if($user["image"]) echo $user["image"]; else echo '/media/man.jpeg'; ?>" alt="mdo" width="32" height="32" class="rounded-circle" id="profileimagenav">
         </a>
         <ul class="dropdown-menu text-small">
           <li><a class="dropdown-item <?php if($actual_page == "profile") echo 'disabled';?>" href="/pages/profile.php">Profile</a></li>

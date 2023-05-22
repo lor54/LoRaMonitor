@@ -4,6 +4,8 @@
     header("location:/auth.php");
   }
 
+  require_once($_SERVER["DOCUMENT_ROOT"] . "/include/database.php");
+
   $cookie_name = "LoRaMonitorLanguage";
   $choosenLanguage = "en";
 
@@ -14,6 +16,25 @@
 
   $choosenLanguage = $_COOKIE[$cookie_name];
   require($_SERVER["DOCUMENT_ROOT"] . "/locals/". $choosenLanguage . ".php");
+
+  $users = array();
+
+  try {
+    $query = "SELECT * FROM users WHERE id = :uid";
+    $statement = $connect->prepare($query);
+    $statement->execute(array('uid' => $_SESSION["uid"]));
+    $count = $statement->rowCount();
+    if($count > 0) {
+      $users = $statement->fetchAll();
+    }
+  } catch(PDOException $error) {
+    $message = $error->getMessage();
+    print_r($message);
+  }
+
+  $user = "";
+  if(sizeof($users) > 0)
+      $user = $users[0];
 ?>
 
 <!doctype html>

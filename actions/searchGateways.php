@@ -16,14 +16,15 @@
             $statement = $connect->prepare($query);
             $statement->execute(array('uid' => $_SESSION["uid"], 'name' => $data["name"]));
             $count = $statement->rowCount();
+            http_response_code(200);
             if($count > 0) {
                 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                http_response_code(200);
-                header('Content-type: application/json');
-                echo json_encode($result);
-            } else {
-                http_response_code(404);
             }
+            
+            http_response_code(200);
+            header('Content-type: application/json');
+            echo json_encode($result);
+
             return;
         } catch(PDOException $error) {
             $message = $error->getMessage();
