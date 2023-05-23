@@ -26,6 +26,5 @@
     $language["INS-PASSWORD"] = "Insert new password";
     $language["REINS-PASSWORD"] = "Insert again new password";
     $language["ADD-IMAGE"] = "Modify profile image";
-    $language["GW-NOTFOUND"] = "You have no linked gateway 😢.  Please start adding one!";
-    $language["AU-INFIELD"] = "Incomplete field";
+    $language["GW-NOTFOUND"] = "You have no linked gateway 😢.  Please start adding one!"
 ?>

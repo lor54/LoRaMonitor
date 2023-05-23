@@ -1,15 +1,14 @@
 <?php
   $actual_page = "auth";
 
-  require_once("include/database.php");
+  require_once("include/header.php");
   session_start();
-  $error = "";
 
   try {
     if(isset($_POST["login"])){
       if(empty($_POST["email"]) || empty($_POST["password"])){
-        $error = "emptyField";
-      } 
+        $message = '<label>Incomplete field</label>';
+      }
       else {
         $hashPassword = hash("sha256", $_POST["password"]);
         $query = "SELECT * FROM users WHERE email = :email AND password = :password";
@@ -125,27 +124,26 @@
           
       }
   }
-
-  include "include/header.php";
 ?>
+
+<!doctype html>
+<html lang="it">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LoRaMonitor</title>
+  <link rel="stylesheet" href="/styles/auth.css">
+  <link rel="stylesheet" href="/styles/toast.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  
+  <script src="/scripts/auth.js"></script>
+  <script src="/scripts/toast.js"></script>
+</head>
 
 <body>
 <div class="login-page">
-  <div class="form rounded">
-    <?php
-      if(isset($message)){
-        echo '<label class="text-success">'.$message.'</label>';
-      }
-
-      if(isset($errors) && count($errors) > 0)
-			{
-				foreach($errors as $error_msg)
-				{
-					echo '<div class="alert alert-danger">'.$error_msg.'</div>';
-				}
-      }
-    ?>
-    
+  <div class="form rounded">    
     <div class="auth py-5 bg-body-tertiary">
     <div class="container">
     <div class="row justify-content-evenly">
@@ -224,9 +222,31 @@
                 </div>  
             </div>
           </div>
-          <?php if($error != "") echo '<script> $.snack("error", "code", 3000); </script>';?>
-          <script  src="/styles/auth.js"></script>
-          <?php include "include/footer.php"; ?>
+
+          <?php
+            if(isset($message)){
+              echo '
+                <script>
+                jQuery(function($) {
+                  $.snack("error", "'. $message . '", 3000);
+                });
+                </script>';
+            }
+
+            if(isset($errors) && count($errors) > 0)
+            {
+              foreach($errors as $error_msg)
+              {
+                echo '
+                <script>
+                jQuery(function($) {
+                  $.snack("error", "'. $error_msg . '", 3000);
+                });
+                </script>';
+              }
+            }
+          ?>
+    <?php include "include/footer.php"; ?>
 </body>
 
 </html>

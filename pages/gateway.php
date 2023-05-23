@@ -117,7 +117,7 @@
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
     <script>
-
+        
     var isEditing = false;
 
     let map = L.map('map').setView([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>], 16);
