@@ -1,5 +1,7 @@
 <?php
   $actual_page = "auth";
+  require_once("include/database.php");
+
   session_start();
 
   try {
@@ -245,7 +247,7 @@
               }
             }
           ?>
-    <script  src="/styles/auth.js"></script>
+    <script src="/scripts/auth.js"></script>
     <?php include "include/footer.php"; ?>
 </body>
 
