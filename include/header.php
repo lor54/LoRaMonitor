@@ -1,6 +1,6 @@
 <?php
   session_start();
-  if(!isset($_SESSION["email"])) {
+  if(!isset($_SESSION["email"]) && $actual_page != 'auth') {
     header("location:/auth.php");
   }
 
@@ -19,22 +19,24 @@
 
   $users = array();
 
-  try {
-    $query = "SELECT * FROM users WHERE id = :uid";
-    $statement = $connect->prepare($query);
-    $statement->execute(array('uid' => $_SESSION["uid"]));
-    $count = $statement->rowCount();
-    if($count > 0) {
-      $users = $statement->fetchAll();
+  if($actual_page != 'auth') {
+    try {
+      $query = "SELECT * FROM users WHERE id = :uid";
+      $statement = $connect->prepare($query);
+      $statement->execute(array('uid' => $_SESSION["uid"]));
+      $count = $statement->rowCount();
+      if($count > 0) {
+        $users = $statement->fetchAll();
+      }
+    } catch(PDOException $error) {
+      $message = $error->getMessage();
+      print_r($message);
     }
-  } catch(PDOException $error) {
-    $message = $error->getMessage();
-    print_r($message);
-  }
 
-  $user = "";
-  if(sizeof($users) > 0)
-      $user = $users[0];
+    $user = "";
+    if(sizeof($users) > 0)
+        $user = $users[0];
+  }
 ?>
 
 <!doctype html>
