@@ -193,7 +193,7 @@
                             <button type="submit" class="btn btn-primary btn-lg" name="signup">Signup</button>
                           </div>
 
-                          <p class="message">Are you alredy registered? <a href="#">Signup</a></p>
+                          <p class="message">Are you alredy registered? <a href="#">Login</a></p>
                         </form>
 
                         <form method="post" id="login" name="login" class="login-form">

@@ -110,6 +110,9 @@
 
         <div class="mb-4 mb-md-4"></div>
         <div id="stats_second_chart"></div>
+
+        <div class="mb-4 mb-md-4"></div>
+        <div id="freq_chart"></div>
     </div>
     </div>
     <script
@@ -117,7 +120,7 @@
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
     <script>
-        
+
     var isEditing = false;
 
     let map = L.map('map').setView([<?php echo $gateway["latitude"];?>, <?php echo $gateway["longitude"];?>], 16);
@@ -147,6 +150,12 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
+        writePacketChart();
+        writeStatsChart();
+        writeFreqChart();
+    }
+
+    function writePacketChart() {
         let chart = new google.visualization.LineChart(
             document.getElementById('packet_second_chart')
         );
@@ -166,7 +175,8 @@
             vAxis: {
                 title: '<?php echo $language["GR-ST-SIDETITLE"]; ?>',
                 viewWindow:{ min: 0, max: 5 }
-            }
+            },
+            legend: {position: 'bottom'}
         };
 
         chart.draw(packetsData, packetsOption);
@@ -187,8 +197,9 @@
 
             index++;
         }, 1000);
+    }
 
-
+    function writeStatsChart() {
         let statsData = google.visualization.arrayToDataTable([
             ['Time', '<?php echo $language["GR-GW-UPLPACKETSPERSECOND"]; ?>', '<?php echo $language["GR-GW-UPLPACKETSWHITVALIDCRCPERSECOND"]; ?>', '<?php echo $language["GR-GW-FORWARDEDPACKETSPERSECOND"]; ?>', '<?php echo $language["GR-GW-DOWNLINKPACKETSPERSECOND"]; ?>', '<?php echo $language["GR-GW-EMITTEDPACKETSPERSECOND"]; ?>'],
             [new Date(), 0, 0, 0, 0, 0],
@@ -196,7 +207,7 @@
 
         let statsOption = {
             "lineWidth": 2,
-            "pointSize": 2,
+            "pointSize": 5,
             title: '<?php echo $language["GR-GW-TITLE"]; ?>',
             hAxis: {
                 textPosition: "none"
@@ -204,7 +215,8 @@
             vAxis: {
                 title: '<?php echo $language["GR-ST-SIDETITLE"]; ?>',
                 viewWindow:{ min: 0, max: 5 }
-            }
+            },
+            legend: {position: 'bottom'}
         };
 
         let statChart = new google.visualization.LineChart(
@@ -231,6 +243,43 @@
             statsData.addRow([new Date(), uplinkPacketsReceivedCount,packetsReceivedValidCRCCount, packetsForwardedCount, downlinkPacketsReceivedCount, emittedPacketsCount]);
             statChart.draw(statsData, statsOption);
 
+            i++;
+        }, 1000);
+    }
+
+    function writeFreqChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['<?php echo $language["FREQUENCY"]; ?>', '<?php echo $language["AMOUNT"]; ?>'],
+            ['867', 1]
+        ]);
+
+        var options = {
+            title: '<?php echo $language["FREQ-PACKETS"]; ?>',
+            legend: {position: 'bottom'},
+            vAxis: {
+                title: '<?php echo $language["FREQUENCY"]; ?> (MHz)'
+            }
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('freq_chart'));
+        chart.draw(data, options);
+
+        let i = 0;
+        setInterval(async () => {
+            const req = await fetch("/actions/getGatewayChannels.php?id=<?php echo $gateway["id"]?>");
+            const res = await req.json();
+
+            Object.keys(res).forEach(freqKey => {
+                var foundRows = data.getFilteredRows([{column: 0, value: freqKey}]);
+                for (var y = 0, maxrows = foundRows.length; y < maxrows; y++) {
+                    data.setValue(foundRows[y], 1, res[freqKey]);
+                }
+
+                if(foundRows.length < 1) {
+                    data.addRow([freqKey, res[freqKey]]);   
+                }
+                chart.draw(data, options);
+            });
             i++;
         }, 1000);
     }

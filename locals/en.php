@@ -10,12 +10,15 @@
     $language["GW-NAME"] = "Name";
     $language["GW-LATITUDE"] = "Latitude";
     $language["GW-LONGITUDE"] = "Longitude";
-    $language["GR-GW-UPLPACKETSPERSECOND"] = "Uplink packets per second";
-    $language["GR-GW-UPLPACKETSWHITVALIDCRCPERSECOND"] = "Uplink packets with valid CRC per second";
-    $language["GR-GW-FORWARDEDPACKETSPERSECOND"] = "Forwarded packets per second";
-    $language["GR-GW-DOWNLINKPACKETSPERSECOND"] = "Downlink packets per second";
-    $language["GR-GW-EMITTEDPACKETSPERSECOND"] = "Emitted packets per second";
-    $language["GR-GW-TITLE"] = "Complete stats of the gateway";
+    $language["GR-GW-UPLPACKETSPERSECOND"] = "Uplink packets";
+    $language["GR-GW-UPLPACKETSWHITVALIDCRCPERSECOND"] = "Packets CRC";
+    $language["GR-GW-FORWARDEDPACKETSPERSECOND"] = "Forwarded packets";
+    $language["GR-GW-DOWNLINKPACKETSPERSECOND"] = "Downlink packets";
+    $language["GR-GW-EMITTEDPACKETSPERSECOND"] = "Emitted packets";
+    $language["FREQ-PACKETS"] = "Frequency used by packets";
+    $language["FREQUENCY"] = "Frequency";
+    $language["AMOUNT"] = "Number of packets";
+    $language["GR-GW-TITLE"] = "Complete stats of the gateway per second";
     $language["PR-PROFILE"] = "Profile";
     $language["PR-SURNAME"] = "Surname";
     $language["PR-EMAIL"] = "Email address";
@@ -26,5 +29,6 @@
     $language["INS-PASSWORD"] = "Insert new password";
     $language["REINS-PASSWORD"] = "Insert again new password";
     $language["ADD-IMAGE"] = "Modify profile image";
-    $language["GW-NOTFOUND"] = "You have no linked gateway 😢.  Please start adding one!"
+    $language["GW-NOTFOUND"] = "You have no linked gateway 😢.  Please start adding one!";
+    $language["WRONG-PASSWORD"] = "Wrong password!";
 ?>

@@ -25,29 +25,6 @@
                 $gwui = $result[0]["gwui"];
                 $upPackets = getLastUpPacketsFromTime($connect, $gwui, $time);
                 $downPackets = getLastDownPacketsFromTime($connect, $gwui, $time);
-                /*$result = [];
-
-                foreach($upPackets as $packet) {
-                    $statPacket = getStatPacketFromUpPacket($connect, $packet);
-
-                    $savedTime = explode(" ", $statPacket["time"])[0] . ":" . explode(" ", $statPacket["time"])[1];
-                    $dateInfo = DateTime::createFromFormat('Y-m-d:H:i:s', $savedTime);
-                    print_r($dateInfo);
-
-                    $now = time();
-                    $date = new DateTimeImmutable();
-                    print_r($date);
-
-                    if(($dateInfo->format('Y-m-d') == $date->format('Y-m-d'))) {
-                        if (round(($now - $savedTime) / 60,2) >= 10){
-                            echo "Your account is unlocked";
-                        } elseif (round(($now - $savedTime) / 60,2) < 10){
-                            echo "Your account is locked";
-                        }
-
-                        array_push($result, $statPacket);
-                    }
-                }*/
                 
                 $res = new StdClass();
                 $res->packetsCount = count($downPackets) + count($upPackets);

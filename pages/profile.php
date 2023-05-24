@@ -141,8 +141,7 @@
                 url: actionUrl,
                 data: form.serialize(),
                 success: function(data) {
-                    if(data) alert(data);
-                    else {
+                    if(data) {
                         $.snack("success", "<?php echo $language["EDIT-SUCCESS"]; ?>", 3000);
                     }
                 },
@@ -163,12 +162,15 @@
                 url: actionUrl,
                 data: form.serialize(),
                 success: function(data) {
+                    console.log(data);
                     if(data) {
                         $.snack("success", "<?php echo $language["EDIT-SUCCESS"]; ?>", 3000);
                     }
                 },
                 error: function(data) {
-                    if(data) alert(data);
+                    if(data) {
+                        $.snack("error", "<?php echo $language["WRONG-PASSWORD"]; ?>", 3000);
+                    }
                 }
             });
         });
