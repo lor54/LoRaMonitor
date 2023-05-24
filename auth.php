@@ -38,6 +38,10 @@
           $surname = trim($_POST['surname']);
           $email = trim($_POST['email']);
           $password = trim($_POST['password']);
+
+          if(strlen($password) < 7) {
+            $errors[] = 'Please user a password longer than 7 characters.';
+          } else {
           
           $hashPassword = hash("sha256", $_POST["password"]);
    
@@ -84,6 +88,7 @@
           {
               $errors[] = "Email address is not valid";
           }
+        }
       }
       else
       {
@@ -121,7 +126,6 @@
           {
               $valpassword = $_POST['password'];
           }
-          
       }
   }
 ?>
@@ -229,7 +233,7 @@
               echo '
                 <script>
                 jQuery(function($) {
-                  $.snack("error", "'. $message . '", 3000);
+                  $.snack("success", "'. $message . '", 3000);
                 });
                 </script>';
             }
