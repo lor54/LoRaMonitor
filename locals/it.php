@@ -31,4 +31,5 @@
     $language["ADD-IMAGE"] = "Modifica immagine profilo";
     $language["GW-NOTFOUND"] = "Non hai alcun gateway collegato 😢.  Inizia aggiungendone uno!";
     $language["WRONG-PASSWORD"] = "Password errata!";
+    $language['DEL-SUCCESFUL'] = "Gateway eliminato con successo!";
 ?>

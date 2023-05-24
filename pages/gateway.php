@@ -45,6 +45,7 @@
                         <div class="col">
                             <div class="float-end">
                                 <button type="button" id="editButton" onclick="editGateway()" class="btn btn-success"><i class="bi-pencil-square"></i></button>
+                                <button type="button" id="deleteButton" onclick="deleteGateway()" class="btn btn-danger" style="display:none"><i class="bi-trash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -295,6 +296,23 @@
 
         document.getElementById("editButton").style.display = 'none';
         document.getElementById("editButtonSubmit").style.display = 'block';
+        document.getElementById("deleteButton").style.display = 'block';
+    }
+
+    async function deleteGateway() {        
+        const req = await fetch("/actions/deleteGateway.php?id=" + <?php echo $gateway["id"]; ?>);
+        const res = await req.json();
+        const deleted = res.deleted;
+
+        if(deleted) {
+            jQuery(function($) {
+                $.snack("success", "<?php echo $language['DEL-SUCCESFUL']; ?>", 3000);
+            });
+            setTimeout(function(){
+                window.location = "/";
+            }, 1000);
+            
+        }
     }
 
     function closeEditGateway() {        
@@ -308,6 +326,7 @@
 
         document.getElementById("editButton").style.display = 'block';
         document.getElementById("editButtonSubmit").style.display = 'none';
+        document.getElementById("deleteButton").style.display = 'none';
 
         if(marker !== null){
             map.removeLayer(marker);
